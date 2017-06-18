@@ -227,7 +227,7 @@ void ContFramePool::mark_inaccessible(unsigned long _frame_no)
     unsigned int bitmap_index = _frame_no - base_frame_no;
     
     // Is the frame being used already?
-    assert(bitmap[bitmap_index] != 'F');
+    assert(bitmap[bitmap_index] != 'A'|| bitmap[bitmap_index]!='H');
     
     // Update bitmap
     bitmap[bitmap_index] = 'H';
