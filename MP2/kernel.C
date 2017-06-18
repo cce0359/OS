@@ -115,7 +115,7 @@ void test_memory(ContFramePool * _pool, unsigned int _allocs_to_go) {
     	 Console::puti(n_frames); Console::puts("\n");
         unsigned long frame = _pool->get_frames(n_frames);
     	 Console::puti(frame); Console::puts("\n");
-        
+       // 0x00==0x0?Console::puts("true"):Console::puts("false");
 	int * value_array = (int*)(frame * (4 KB));        
         for (int i = 0; i < (1 KB) * n_frames; i++) {
             value_array[i] = _allocs_to_go;

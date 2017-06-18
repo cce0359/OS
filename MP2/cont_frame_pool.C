@@ -155,7 +155,7 @@ ContFramePool::ContFramePool(unsigned long _base_frame_no,
     
     // Everything ok. Proceed to mark all bits in the bitmap huge nut okey for now
     for(int i=0; i < _n_frames; i++) {
-        bitmap[i] = 'F';
+        bitmap[i]='F';
     }
     
     // Mark the first frame as being used if it is being used
