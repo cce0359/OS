@@ -42,7 +42,12 @@ class ContFramePool {
     
 private:
     /* -- DEFINE YOUR CONT FRAME POOL DATA STRUCTURE(s) HERE. */
-    
+    unsigned char * bitmap;        // We implement the simple frame pool with a bitmap
+    unsigned int    nFreeFrames;   //
+    unsigned long   base_frame_no; // Where does the frame pool start in phys mem?
+    unsigned long   nframes;       // Size of the frame pool
+    unsigned long   info_frame_no; // Where do we store the management information?
+    unsigned long   n_info_frames;
 public:
 
     // The frame size is the same as the page size, duh...    
@@ -90,6 +95,7 @@ public:
      _base_frame_no: Number of first frame to mark as inaccessible.
      _n_frames: Number of contiguous frames to mark as inaccessible.
      */
+    
     
     static void release_frames(unsigned long _first_frame_no);
     /*
