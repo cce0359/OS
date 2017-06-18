@@ -143,7 +143,7 @@ ContFramePool::ContFramePool(unsigned long _base_frame_no,
     nframes = _n_frames;
     nFreeFrames = _n_frames;
     info_frame_no = _info_frame_no;
-    n_info_frames = _n_info_frames
+    n_info_frames = _n_info_frames;
     
     // If _info_frame_no is zero then we keep management info in the first
     //frame, else we use the provided frame to keep management info
@@ -182,7 +182,7 @@ unsigned long ContFramePool::get_frames(unsigned int _n_frames)
         int j = i; 
         if(bitmap[i] == 'F'){
             for (;j-i+1<=_n_frames; j++){
-                if (s[j] != 'F'){
+                if (bitmap[j] != 'F'){
                     break;
                 }
             }
@@ -195,7 +195,7 @@ unsigned long ContFramePool::get_frames(unsigned int _n_frames)
 
     if (i == nframes) return 0;
 
-    fot(int x = i;x < nframes;x++){
+    for(int x = i;x < nframes;x++){
         if(x==i)
             bitmap[x]='H';
         else{
@@ -204,7 +204,7 @@ unsigned long ContFramePool::get_frames(unsigned int _n_frames)
     }
 
     frame_no += i;   
-    nFreeFrames- = _n_frames;
+    nFreeFrames -= _n_frames;
     
     return (frame_no);
 }
@@ -213,13 +213,13 @@ void ContFramePool::mark_inaccessible(unsigned long _base_frame_no,
                                       unsigned long _n_frames)
 {
     // TODO: IMPLEMENTATION NEEEDED!
-    int i = 0;
+    unsigned long i = 0;
     for(i = _base_frame_no; i < _base_frame_no + _n_frames; i++){
         mark_inaccessible(i);
     }
-    nFreeFrames -= _nframes;
+    nFreeFrames -= _n_frames;
 }
-void SimpleFramePool::mark_inaccessible(unsigned long _frame_no)
+void ContFramePool::mark_inaccessible(unsigned long _frame_no)
 {
     // Let's first do a range check.
     assert ((_frame_no >= base_frame_no) && (_frame_no < base_frame_no + nframes));
