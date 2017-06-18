@@ -236,7 +236,7 @@ void ContFramePool::mark_inaccessible(unsigned long _frame_no)
 void ContFramePool::release_frames(unsigned long _first_frame_no)
 {
     // TODO: IMPLEMENTATION NEEEDED!
-    //assert(false);
+    assert(false);
 }
 
 unsigned long ContFramePool::needed_info_frames(unsigned long _n_frames)
