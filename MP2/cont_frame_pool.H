@@ -95,8 +95,9 @@ public:
      _base_frame_no: Number of first frame to mark as inaccessible.
      _n_frames: Number of contiguous frames to mark as inaccessible.
      */
-    
-    
+
+    void ContFramePool::mark_inaccessible(unsigned long _frame_no);:
+
     static void release_frames(unsigned long _first_frame_no);
     /*
      Releases a previously allocated contiguous sequence of frames
