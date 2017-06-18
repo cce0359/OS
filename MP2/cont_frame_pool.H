@@ -48,6 +48,9 @@ private:
     unsigned long   nframes;       // Size of the frame pool
     unsigned long   info_frame_no; // Where do we store the management information?
     unsigned long   n_info_frames;
+
+    static ContFramePool* pool_list;
+    ContFramePool* prev; 
 public:
 
     // The frame size is the same as the page size, duh...    
@@ -57,6 +60,7 @@ public:
                   unsigned long _n_frames,
                   unsigned long _info_frame_no,
                   unsigned long _n_info_frames);
+
     /*
      Initializes the data structures needed for the management of this
      frame pool.

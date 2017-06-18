@@ -108,8 +108,7 @@
 /*--------------------------------------------------------------------------*/
 /* DATA STRUCTURES */
 /*--------------------------------------------------------------------------*/
-
-/* -- (none) -- */
+ContFramePool* ContFramePool::pool_list;
 
 /*--------------------------------------------------------------------------*/
 /* CONSTANTS */
@@ -126,6 +125,8 @@
 /*--------------------------------------------------------------------------*/
 /* METHODS FOR CLASS   C o n t F r a m e P o o l */
 /*--------------------------------------------------------------------------*/
+
+
 
 ContFramePool::ContFramePool(unsigned long _base_frame_no,
                              unsigned long _n_frames,
@@ -163,7 +164,12 @@ ContFramePool::ContFramePool(unsigned long _base_frame_no,
         bitmap[0] = 'H';
         nFreeFrames--;
     }
-    
+
+     if (ContFramePool::pool_list==NULL)
+                ContFramePool::pool_list=this;
+ 
+    ContFramePool::prev  = this; 
+
     Console::puts("Frame Pool initialized\n");
 }
 
@@ -230,13 +236,31 @@ void ContFramePool::mark_inaccessible(unsigned long _frame_no)
     assert(bitmap[bitmap_index] != 'A'|| bitmap[bitmap_index]!='H');
     
     // Update bitmap
-    bitmap[bitmap_index] = 'H';
+    bitmap[bitmap_index] = 'X';
     nFreeFrames--;
 }
 void ContFramePool::release_frames(unsigned long _first_frame_no)
 {
-    // TODO: IMPLEMENTATION NEEEDED!
-    assert(false);
+ ContFramePool* curr=ContFramePool::pool_list;
+        //determine if frame is in curr
+        while (!(curr->base_frame_no > _first_frame_no 
+            || curr->base_frame_no+ curr->nframes <= _first_frame_no))
+        {
+            if(curr->prev!=NULL)
+                curr=prev;//
+            else{
+                Console::puts("Error releasing frame, was not contained in any frame pools\n");
+                assert(false);
+            }
+        }
+       
+        unsigned char* frame_byte = &curr->bitmap;//gets byte containing frame
+        if(frame_byte[_first_frame_no]=='H'){
+            frame_byte[_first_frame_no++] = 'F';
+            while(frame_byte[_first_frame_no]!='F'&&frame_byte[_first_frame_no]!='H'){
+                frame_byte[_first_frame_no++] = 'F';
+            }
+        }
 }
 
 unsigned long ContFramePool::needed_info_frames(unsigned long _n_frames)
