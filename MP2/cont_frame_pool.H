@@ -51,6 +51,7 @@ private:
 
     static ContFramePool* pool_list;
     ContFramePool* prev; 
+    ContFramePool* next; 
 public:
 
     // The frame size is the same as the page size, duh...    

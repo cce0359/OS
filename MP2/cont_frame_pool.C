@@ -131,8 +131,7 @@ ContFramePool* ContFramePool::pool_list;
 ContFramePool::ContFramePool(unsigned long _base_frame_no,
                              unsigned long _n_frames,
                              unsigned long _info_frame_no,
-                             unsigned long _n_info_frames)
-{
+                             unsigned long _n_info_frames){
     // TODO: IMPLEMENTATION NEEEDED!
 
     /*Constructor: Initialize all frames to FREE, except for any frames that you 
@@ -160,16 +159,18 @@ ContFramePool::ContFramePool(unsigned long _base_frame_no,
     }
     
     // Mark the first frame as being used if it is being used
-    if(_info_frame_no == 0) {
+/* 
+   if(_info_frame_no == 0) {
         bitmap[0] = 'H';
         nFreeFrames--;
     }
-
+*/
      if (ContFramePool::pool_list==NULL)
                 ContFramePool::pool_list=this;
- 
-    ContFramePool::prev  = this; 
-
+     else
+     	pool_list->next = this;
+    
+     prev = pool_list;
     Console::puts("Frame Pool initialized\n");
 }
 
@@ -178,40 +179,54 @@ unsigned long ContFramePool::get_frames(unsigned int _n_frames)
     // TODO: IMPLEMENTATION NEEEDED!
      // Any frames left to allocate?
     assert(nFreeFrames > 0);
-    
+    Console::puts("In get frames"); 
     // Find a frame that is not being used and return its frame index.
     // Mark that frame as being used in the bitmap.
+    for(int k = 0 ; k < 10 ;++k){
+    Console::puti(bitmap[k]); 
+   }
     unsigned int frame_no = base_frame_no;
-    
+    Console::puti(frame_no); 
     unsigned int i = 0;
-     while(i<nframes){
+    while(i<nframes){
         int j = i; 
         if(bitmap[i] == 'F'){
+	
+    Console::puti(i); 
+    
+    Console::puts("==F\n"); 
             for (;j-i+1<=_n_frames; j++){
+		
+    Console::puti(i); 
+    Console::puts("and"); 
+    Console::puti(j); 
+    Console::puts("\n"); 
                 if (bitmap[j] != 'F'){
                     break;
                 }
             }
         }
-        if(j-i==2) {
+        if(j-i == _n_frames)
                 break;
-        }
+        
         i = j+1;
     }
 
-    if (i == nframes) return 0;
+    //if (i == nframes) return 0;
 
-    for(int x = i;x < nframes;x++){
+    for(int x = i;x < _n_frames;x++){
         if(x==i)
             bitmap[x]='H';
         else{
             bitmap[x]='A';
         }
     }
-
+    	
+    Console::puts("\n"); 
+    Console::puti(i); 
     frame_no += i;   
+    Console::puts("\n"); 
     nFreeFrames -= _n_frames;
-    
     return (frame_no);
 }
 
@@ -242,19 +257,19 @@ void ContFramePool::mark_inaccessible(unsigned long _frame_no)
 void ContFramePool::release_frames(unsigned long _first_frame_no)
 {
  ContFramePool* curr=ContFramePool::pool_list;
-        //determine if frame is in curr
-        while (!(curr->base_frame_no > _first_frame_no 
-            || curr->base_frame_no+ curr->nframes <= _first_frame_no))
+ 
+       //determine if frame is in curr
+        if (curr->base_frame_no+ curr->nframes <= _first_frame_no)
         {
-            if(curr->prev!=NULL)
-                curr=prev;//
+            if(curr->next!=NULL)
+                curr=curr->next;
             else{
                 Console::puts("Error releasing frame, was not contained in any frame pools\n");
                 assert(false);
             }
         }
        
-        unsigned char* frame_byte = &curr->bitmap;//gets byte containing frame
+        unsigned char* frame_byte = curr->bitmap;//gets byte containing frame
         if(frame_byte[_first_frame_no]=='H'){
             frame_byte[_first_frame_no++] = 'F';
             while(frame_byte[_first_frame_no]!='F'&&frame_byte[_first_frame_no]!='H'){
