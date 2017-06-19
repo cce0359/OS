@@ -361,8 +361,42 @@ void ContFramePool::release_frames(unsigned long _first_frame_no)
         }
        
         unsigned char* frame_byte = &curr->bitmap[(_first_frame_no-curr->base_frame_no)/8];//gets byte containing frame
-        unsigned char* ava_byte = &curr->avamap[(_first_frame_no-curr->base_frame_no)/8];
+        unsigned char* next_frame_byte = &curr->bitmap[(_first_frame_no-curr->base_frame_no)/8+1];
+        unsigned char* ava_byte = &curr->avamap[(_first_frame_no-curr->base_frame_no)/8+1];
+        unsigned char* next_ava_byte = &curr->avamap[(_first_frame_no-curr->base_frame_no)/8];
+         ClearNthbit(*frame_byte,(_first_frame_no-(curr->base_frame_no))%8);
+         ClearNthbit(*ava_byte,(_first_frame_no-(curr->base_frame_no))%8);
+         int k = (_first_frame_no-(curr->base_frame_no))%8+1;
+/*
         bool flag = true;
+        while(flag){
+            if
+
+        }
+  */
+        if(k==8){
+          k = 0; 
+          frame_byte= next_frame_byte;
+          ava_byte = next_ava_byte;
+         }
+   for (int i = 0 ; i < 4 ; ++i){
+     if( !IsNthbit(*frame_byte,k) && !IsNthbit(*ava_byte,k)){
+        break;
+     }
+     else{
+        if(!IsNthbit(*frame_byte,k))
+         ClearNthbit(*frame_byte,k);
+        else if( !IsNthbit(*ava_byte,k))
+         ClearNthbit(*ava_byte,k);
+     
+     k = k+1;
+     if(k==8){
+          k = 0; 
+          frame_byte= next_frame_byte;
+          ava_byte = next_ava_byte;
+         }
+     }
+   }      
     /*
     while(flag){
         if(!IsNthbit(frame_byte[_first_frame_no/8],_first_frame_no%8)&&!IsNthbit(ava_byte[_first_frame_no/8],_first_frame_no%8)){
