@@ -1,8 +1,8 @@
 /*
  File: ContFramePool.C
  
- Author:
- Date  : 
+ Author: Chia-wei Chang
+ Date  : 6/18 2017
  
  */
 
@@ -163,13 +163,13 @@ ContFramePool::ContFramePool(unsigned long _base_frame_no,
     if(info_frame_no == 0) {
         bitmap = (unsigned char *) (base_frame_no * FRAME_SIZE);
         avamap = bitmap+1024;//store second map 1024 bytes later
-        memset(bitmap,0,FRAME_SIZE); //intializes entire info frame to 0
-        memset(bitmap,0x80,1);//sets first bit to 1 in bit_map
+        memset(bitmap,0,FRAME_SIZE); //intial
+        memset(bitmap,0x80,1);//sets first bit to 1 if info_frame_no == 0 
         info_frame_no=base_frame_no;//store new info_frame_number
     } else {
          bitmap = (unsigned char *) (info_frame_no * FRAME_SIZE);//pointer address initilaize
          avamap = bitmap+1024;//store second map 1024 bytes later
-         memset(avamap,0,FRAME_SIZE); // Frame size is in bytes sets both maps to 0
+         memset(avamap,0,FRAME_SIZE); // initial
     }
     
     // Everything ok. Proceed to mark all bits in the bitmap huge nut okey for now

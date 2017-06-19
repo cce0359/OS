@@ -168,3 +168,26 @@
 05613495544i[XGUI  ] charmap update. Font Height is 16
 05659940924i[XGUI  ] charmap update. Font Height is 16
 05667981144i[XGUI  ] charmap update. Font Height is 16
+11093496000p[XGUI  ] >>PANIC<< POWER button turned off.
+11093496000i[CPU0  ] CPU is in protected mode (active)
+11093496000i[CPU0  ] CS.mode = 32 bit
+11093496000i[CPU0  ] SS.mode = 32 bit
+11093496000i[CPU0  ] EFER   = 0x00000000
+11093496000i[CPU0  ] | EAX=00000000  EBX=00026260  ECX=00000f00  EDX=000003d4
+11093496000i[CPU0  ] | ESP=00104f80  EBP=00104ff8  ESI=000263d3  EDI=000263df
+11093496000i[CPU0  ] | IOPL=0 id vip vif ac vm rf nt of df if tf sf ZF af PF cf
+11093496000i[CPU0  ] | SEG sltr(index|ti|rpl)     base    limit G D
+11093496000i[CPU0  ] |  CS:0008( 0001| 0|  0) 00000000 ffffffff 1 1
+11093496000i[CPU0  ] |  DS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+11093496000i[CPU0  ] |  SS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+11093496000i[CPU0  ] |  ES:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+11093496000i[CPU0  ] |  FS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+11093496000i[CPU0  ] |  GS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+11093496000i[CPU0  ] | EIP=00100431 (00100431)
+11093496000i[CPU0  ] | CR0=0x60000011 CR2=0x00000000
+11093496000i[CPU0  ] | CR3=0x00000000 CR4=0x00000000
+11093496000i[CPU0  ] 0x00100431>> jmp .-2 (0x00100431) : EBFE
+11093496000i[CMOS  ] Last time is 946683973 (Fri Dec 31 17:46:13 1999)
+11093496000i[XGUI  ] Exit
+11093496000i[      ] restoring default signal behavior
+11093496000i[SIM   ] quit_sim called with exit code 1
