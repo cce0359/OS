@@ -43,6 +43,7 @@ class ContFramePool {
 private:
     /* -- DEFINE YOUR CONT FRAME POOL DATA STRUCTURE(s) HERE. */
     unsigned char * bitmap;        // We implement the simple frame pool with a bitmap
+    unsigned char * avamap;  
     unsigned int    nFreeFrames;   //
     unsigned long   base_frame_no; // Where does the frame pool start in phys mem?
     unsigned long   nframes;       // Size of the frame pool
@@ -123,7 +124,7 @@ public:
      (not appropriate for contiguous allocation) one would need one frame to manage a 
      frame pool with up to 8 * 4096 = 32k frames = 128MB of memory!
      This function would therefore return the following value:
-       _n_frames / 32k + (_n_frames % 32k > 0 ? 1 : 0) (always round up!)
+      sss(always round up!)
      Other implementations need a different number of info frames.
      The exact number is computed in this function..
      */

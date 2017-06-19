@@ -414,7 +414,8 @@ void ContFramePool::release_frames(unsigned long _first_frame_no)
         }
        
         unsigned char* frame_byte = curr->bitmap;//gets byte containing frame
-        if(frame_byte[_first_frame_no]=='H'){
+        unsigned char* ava_byte = curr->bitmap;
+        if(frame_byte[_first_frame_no/8]==){
             frame_byte[_first_frame_no++] = 'F';
             while(frame_byte[_first_frame_no]!='F'&&frame_byte[_first_frame_no]!='H'){
                 frame_byte[_first_frame_no++] = 'F';
@@ -426,5 +427,5 @@ unsigned long ContFramePool::needed_info_frames(unsigned long _n_frames)
 {
     // TODO: IMPLEMENTATION NEEEDED!
     // one char each
-    return _n_frames;
+    return  _n_frames/8 +(_n_frames % 8 > 0 ? 1 : 0);
 }
