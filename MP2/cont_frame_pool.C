@@ -194,21 +194,29 @@ unsigned long ContFramePool::get_frames(unsigned int _n_frames)
                 for (int j=0;j<8;++j){ 
                     if(IsNthbit(bitmap[i],j) && IsNthbit(avamap[i],j))//linear probe block to find empty page
                     {
-                        for(int k = j ; k <8 && space < _n_frames;++k){
-                            if (!(IsNthbit(bitmap[i],j) && IsNthbit(avamap[i],j)))
+                    if(_n_frames ==1){
+                       SetNthbit(bitmap[i],j);
+                       SetNthbit(avamap[i],j);
+                       return base_frame_no+i*8+j;//return frame number 
+		    } 
+		       int k = j;
+			for(; k <8 && space < _n_frames;++k){
+                            if (!(IsNthbit(bitmap[i],k) && IsNthbit(avamap[i],k)))
                                 break;
                             else
                                 space+=1;
                         }
                         if(k==8&&space<_n_frames){
-                           for(int l = 0 ; l <8 && space < _n_frames ;++l){
-                              if(IsNthbit(bitmap[i+1],l) && IsNthbit(avamap[1+i],l)){
+                          int l = 0; 
+			  for(; l <8 && space < _n_frames ;++l){
+                              if(IsNthbit(bitmap[i+1],l) && IsNthbit(avamap[i+1],l)){
                                     space+=1;
                                 if (space == _n_frames){
-                                    for(int lm = 0 ; lm<= l ;++lm){
+				int lm = 0;
+                                    for(; lm<= l ;++lm){
                                         SetNthbit(bitmap[i+1],lm);
                                     }
-                                    for(int mark = i*8+j ; mark < i*8+j+_n_frames-lm-1;++mark){
+                                    for(int mark = i*8+j ; mark < i*8+j+_n_frames-lm;++mark){
                                       if(mark == i*8+j){
                                         SetNthbit(bitmap[i],mark-(i*8));
                                         SetNthbit(avamap[i],mark-(i*8)); //mark frame as used
@@ -352,8 +360,8 @@ void ContFramePool::release_frames(unsigned long _first_frame_no)
             }
         }
        
-        unsigned char* frame_byte = &curr->bitmap[(_frame_no-curr->base_frame_no)/8];//gets byte containing frame
-        unsigned char* ava_byte = &curr->avamap[(_frame_no-curr->base_frame_no)/8];
+        unsigned char* frame_byte = &curr->bitmap[(_first_frame_no-curr->base_frame_no)/8];//gets byte containing frame
+        unsigned char* ava_byte = &curr->avamap[(_first_frame_no-curr->base_frame_no)/8];
         bool flag = true;
     /*
     while(flag){

@@ -94,7 +94,7 @@ int main() {
 
     /* -- TEST MEMORY ALLOCATOR */
     
-    test_memory(&kernel_mem_pool, 5);
+    test_memory(&kernel_mem_pool,32);
 
     /* ---- Add code here to test the frame pool implementation. */
     
@@ -112,7 +112,6 @@ void test_memory(ContFramePool * _pool, unsigned int _allocs_to_go) {
     Console::puts("alloc_to_go = "); Console::puti(_allocs_to_go); Console::puts("\n");
     if (_allocs_to_go > 0) {
         int n_frames = _allocs_to_go % 4 + 1;
-    	 Console::puti(n_frames); Console::puts("\n");
         unsigned long frame = _pool->get_frames(n_frames);
     	 Console::puti(frame); Console::puts("\n");
        // 0x00==0x0?Console::puts("true"):Console::puts("false");
