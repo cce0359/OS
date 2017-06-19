@@ -31,7 +31,7 @@
 00000000000i[      ]   SB16 support: no
 00000000000i[      ]   USB support: no
 00000000000i[      ]   VGA extension support: vbe
-00000000000i[MEM0  ] allocated memory at 0x7fb934337010. after alignment, vector=0x7fb934338000
+00000000000i[MEM0  ] allocated memory at 0x7f699c39a010. after alignment, vector=0x7f699c39b000
 00000000000i[MEM0  ] 32.00MB
 00000000000i[MEM0  ] mem block size = 0x00100000, blocks=32
 00000000000i[MEM0  ] rom at 0xfffe0000/131072 ('BIOS-bochs-latest')
@@ -129,42 +129,42 @@
 00000000000i[PLUGIN] reset of 'parallel' plugin device by virtual method
 00000000000i[PLUGIN] reset of 'serial' plugin device by virtual method
 00000003302i[BIOS  ] $Revision: 1.209 $ $Date: 2008/06/02 20:08:10 $
-00000425042i[KBD   ] reset-disable command received
-00000545652i[VBIOS ] VGABios $Id: vgabios.c,v 1.67 2008/01/27 09:44:12 vruppert Exp $
-00000545723i[BXVGA ] VBE known Display Interface b0c0
-00000545755i[BXVGA ] VBE known Display Interface b0c4
-00000548680i[VBIOS ] VBE Bios $Id: vbe.c,v 1.60 2008/03/02 07:47:21 vruppert Exp $
-00000871681i[BIOS  ] Starting rombios32
-00000872508i[BIOS  ] ram_size=0x02000000
-00000884734i[BIOS  ] Found 1 cpu(s)
-00000901035i[BIOS  ] bios_table_addr: 0x000fb778 end=0x000fcc00
-00001359909i[PCI   ] i440FX PMC write to PAM register 59 (TLB Flush)
-00001598305i[XGUI  ] charmap update. Font Height is 16
-00001819396i[P2ISA ] PCI IRQ routing: PIRQA# set to 0x0b
-00001819443i[P2ISA ] PCI IRQ routing: PIRQB# set to 0x09
-00001819490i[P2ISA ] PCI IRQ routing: PIRQC# set to 0x0b
-00001819537i[P2ISA ] PCI IRQ routing: PIRQD# set to 0x09
-00001819553i[P2ISA ] write: ELCR2 = 0x0a
-00001820490i[BIOS  ] PIIX3 init: elcr=00 0a
-00001840745i[BIOS  ] PCI: bus=0 devfn=0x00: vendor_id=0x8086 device_id=0x1237
-00001843982i[BIOS  ] PCI: bus=0 devfn=0x08: vendor_id=0x8086 device_id=0x7000
-00001846715i[BIOS  ] PCI: bus=0 devfn=0x09: vendor_id=0x8086 device_id=0x7010
-00001847176i[PIDE  ] new BM-DMA address: 0xc000
-00001848059i[BIOS  ] region 4: 0x0000c000
-00001850635i[BIOS  ] PCI: bus=0 devfn=0x0b: vendor_id=0x8086 device_id=0x7113
-00001851135i[ACPI  ] new irq line = 11
-00001851172i[ACPI  ] new PM base address: 0xb000
-00001851234i[ACPI  ] new SM base address: 0xb100
-00001851702i[CPU0  ] Enter to System Management Mode
-00001851713i[CPU0  ] RSM: Resuming from System Management Mode
-00001851747i[PCI   ] setting SMRAM control register to 0x4a
-00001852029i[PCI   ] setting SMRAM control register to 0x0a
-00001875310i[BIOS  ] MP table addr=0x000fb850 MPC table addr=0x000fb780 size=0xd0
-00001877513i[BIOS  ] SMBIOS table addr=0x000fb860
-00001880557i[BIOS  ] ACPI tables: RSDP addr=0x000fb970 ACPI DATA addr=0x01ff0000 size=0x9d8
-00001900090i[PCI   ] i440FX PMC write to PAM register 59 (TLB Flush)
-00001901102i[BIOS  ] bios_table_cur_addr: 0x000fb994
-06066884127i[BIOS  ] Booting from 0000:7c00
-06080647569i[XGUI  ] charmap update. Font Height is 16
-06116693309i[XGUI  ] charmap update. Font Height is 16
-06124955213i[XGUI  ] charmap update. Font Height is 16
+00000505070i[KBD   ] reset-disable command received
+00000625642i[VBIOS ] VGABios $Id: vgabios.c,v 1.67 2008/01/27 09:44:12 vruppert Exp $
+00000625713i[BXVGA ] VBE known Display Interface b0c0
+00000625745i[BXVGA ] VBE known Display Interface b0c4
+00000628670i[VBIOS ] VBE Bios $Id: vbe.c,v 1.60 2008/03/02 07:47:21 vruppert Exp $
+00000951671i[BIOS  ] Starting rombios32
+00000952498i[BIOS  ] ram_size=0x02000000
+00000964717i[BIOS  ] Found 1 cpu(s)
+00000981018i[BIOS  ] bios_table_addr: 0x000fb778 end=0x000fcc00
+00001439892i[PCI   ] i440FX PMC write to PAM register 59 (TLB Flush)
+00001899379i[P2ISA ] PCI IRQ routing: PIRQA# set to 0x0b
+00001899426i[P2ISA ] PCI IRQ routing: PIRQB# set to 0x09
+00001899473i[P2ISA ] PCI IRQ routing: PIRQC# set to 0x0b
+00001899520i[P2ISA ] PCI IRQ routing: PIRQD# set to 0x09
+00001899536i[P2ISA ] write: ELCR2 = 0x0a
+00001900473i[BIOS  ] PIIX3 init: elcr=00 0a
+00001920728i[BIOS  ] PCI: bus=0 devfn=0x00: vendor_id=0x8086 device_id=0x1237
+00001923965i[BIOS  ] PCI: bus=0 devfn=0x08: vendor_id=0x8086 device_id=0x7000
+00001925788i[XGUI  ] charmap update. Font Height is 16
+00001926698i[BIOS  ] PCI: bus=0 devfn=0x09: vendor_id=0x8086 device_id=0x7010
+00001927159i[PIDE  ] new BM-DMA address: 0xc000
+00001928042i[BIOS  ] region 4: 0x0000c000
+00001930618i[BIOS  ] PCI: bus=0 devfn=0x0b: vendor_id=0x8086 device_id=0x7113
+00001931118i[ACPI  ] new irq line = 11
+00001931155i[ACPI  ] new PM base address: 0xb000
+00001931217i[ACPI  ] new SM base address: 0xb100
+00001931685i[CPU0  ] Enter to System Management Mode
+00001931696i[CPU0  ] RSM: Resuming from System Management Mode
+00001931730i[PCI   ] setting SMRAM control register to 0x4a
+00001932012i[PCI   ] setting SMRAM control register to 0x0a
+00001955293i[BIOS  ] MP table addr=0x000fb850 MPC table addr=0x000fb780 size=0xd0
+00001957496i[BIOS  ] SMBIOS table addr=0x000fb860
+00001960540i[BIOS  ] ACPI tables: RSDP addr=0x000fb970 ACPI DATA addr=0x01ff0000 size=0x9d8
+00001980073i[PCI   ] i440FX PMC write to PAM register 59 (TLB Flush)
+00001981085i[BIOS  ] bios_table_cur_addr: 0x000fb994
+05596247520i[BIOS  ] Booting from 0000:7c00
+05613495544i[XGUI  ] charmap update. Font Height is 16
+05659940924i[XGUI  ] charmap update. Font Height is 16
+05667981144i[XGUI  ] charmap update. Font Height is 16

@@ -347,7 +347,8 @@ void ContFramePool::mark_inaccessible(unsigned long _frame_no)
 */
 void ContFramePool::release_frames(unsigned long _first_frame_no)
 {
- ContFramePool* curr=ContFramePool::pool_list;
+ //	Console::puts("In release frame\n");
+	ContFramePool* curr=ContFramePool::pool_list;
  
        //determine if frame is in curr
         if (curr->base_frame_no+ curr->nframes <= _first_frame_no)
