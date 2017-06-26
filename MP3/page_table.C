@@ -82,7 +82,7 @@ void PageTable::handle_fault(REGS * _r)
    USER_WRITE_PROTECTION_FAULT 7 */
 
 
-    if(err_code & 1 == 0){ //not present fault 
+    if((err_code&1) == 0){ //not present fault 
          
          if(page_dir[address>>22] & 1 == 1){  //directory has that page table, fault happend in table
             unsigned long page_dir_address = address>>22;
