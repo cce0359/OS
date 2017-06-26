@@ -65,8 +65,9 @@ void PageTable::handle_fault(REGS * _r)
 {
 
     unsigned long address = read_cr2();
-    unsigned long* page_dir = current_page_table->page_directory;
-    unsigned int err_code = _r->err_code;
+    //unsigned long* page_dir = current_page_table->page_directory;
+    unsigned long* page_dir = (unsigned long *)read_cr3();
+    unsigned long err_code = _r->err_code;
     unsigned long *new_page_table;
 
 
@@ -88,7 +89,7 @@ void PageTable::handle_fault(REGS * _r)
             unsigned long page_tab_address = address>>12;
 
             new_page_table = (unsigned long *)((page_dir[page_dir_address]>>12)<<12);
-            new_page_table[page_tab_address & 0x03FF] =  PageTable::process_mem_pool->get_frame(1)*PAGE_SIZE | 3;
+            new_page_table[page_tab_address & 0x03FF] =  PageTable::process_mem_pool->get_frames(1)*PAGE_SIZE | 3;
             //setting 011 is kernel r/w and present
             //&0x03ff to get 10 bit
           }
@@ -97,14 +98,14 @@ void PageTable::handle_fault(REGS * _r)
             unsigned long page_dir_address = address>>22;
             unsigned long page_tab_address = address>>12;
 
-            page_dir[page_dir_address] = (unsigned long)(kernel_mem_pool->get_frame(1)*PAGE_SIZE | 3);
+            page_dir[page_dir_address] = (unsigned long)(kernel_mem_pool->get_frames(1)*PAGE_SIZE | 3);
             new_page_table = (unsigned long *)((page_dir[page_dir_address]>>12)<<12);
 
             for(int i=0; i<1024; i++){
                new_page_table[i] = 4; //user level bit on init
             }
 
-             new_page_table[page_tab_address & 0x03FF] =  PageTable::process_mem_pool->get_frame(1)*PAGE_SIZE | 3;
+             new_page_table[page_tab_address & 0x03FF] =  PageTable::process_mem_pool->get_frames(1)*PAGE_SIZE | 3;
           }
       }
     
