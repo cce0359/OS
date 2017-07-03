@@ -47,8 +47,8 @@ class VMPool { /* Virtual Memory Pool */
 private:
    /* -- DEFINE YOUR VIRTUAL MEMORY POOL DATA STRUCTURE(s) HERE. */
    static const unsigned int LONG_SIZE_IN_BITS = sizeof(unsigned long) * BYTE_SIZE; //BYTE_SIZE is defined in frame_pool.h
-   static const unsigned int REGION_DESC_SIZE = sizeof(struct region);
-   unsigned long _real_base_address;
+   static const unsigned int REGION_SIZE = sizeof(struct region);
+
    unsigned long _base_address;
    unsigned long _num_pages;
    unsigned long _size;
@@ -57,10 +57,9 @@ private:
    PageTable *_page_table;
    
    //assume that we create only limited regions.
-   unsigned long num_regions;
-   
+   unsigned int num_regions;
    struct region *regions;
-
+   unsigned int   max_regions;
 public:
    VMPool(unsigned long  _base_address,
           unsigned long  _size,
