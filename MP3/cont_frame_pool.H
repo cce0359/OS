@@ -42,9 +42,6 @@ class ContFramePool {
     
 private:
     /* -- DEFINE YOUR CONT FRAME POOL DATA STRUCTURE(s) HERE. */
-<<<<<<< HEAD
-    
-=======
     unsigned char * bitmap;        // We implement the simple frame pool with a bitmap
     unsigned char * avamap;  
     unsigned int    nFreeFrames;   //
@@ -56,7 +53,6 @@ private:
     static ContFramePool* pool_list;
     ContFramePool* prev; 
     ContFramePool* next; 
->>>>>>> 58c29c1b77140d689479eae5957316eb6cbd3f41
 public:
 
     // The frame size is the same as the page size, duh...    
@@ -66,10 +62,7 @@ public:
                   unsigned long _n_frames,
                   unsigned long _info_frame_no,
                   unsigned long _n_info_frames);
-<<<<<<< HEAD
-=======
 
->>>>>>> 58c29c1b77140d689479eae5957316eb6cbd3f41
     /*
      Initializes the data structures needed for the management of this
      frame pool.
@@ -108,13 +101,9 @@ public:
      _base_frame_no: Number of first frame to mark as inaccessible.
      _n_frames: Number of contiguous frames to mark as inaccessible.
      */
-<<<<<<< HEAD
-    
-=======
 
     void mark_inaccessible(unsigned long _frame_no);
 
->>>>>>> 58c29c1b77140d689479eae5957316eb6cbd3f41
     static void release_frames(unsigned long _first_frame_no);
     /*
      Releases a previously allocated contiguous sequence of frames
@@ -135,11 +124,7 @@ public:
      (not appropriate for contiguous allocation) one would need one frame to manage a 
      frame pool with up to 8 * 4096 = 32k frames = 128MB of memory!
      This function would therefore return the following value:
-<<<<<<< HEAD
-       _n_frames / 32k + (_n_frames % 32k > 0 ? 1 : 0) (always round up!)
-=======
       sss(always round up!)
->>>>>>> 58c29c1b77140d689479eae5957316eb6cbd3f41
      Other implementations need a different number of info frames.
      The exact number is computed in this function..
      */

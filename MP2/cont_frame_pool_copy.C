@@ -1,13 +1,8 @@
 /*
  File: ContFramePool.C
  
-<<<<<<< HEAD
  Author:
  Date  : 
-=======
- Author: Chia-wei Chang
- Date  : 6/18 2017
->>>>>>> 58c29c1b77140d689479eae5957316eb6cbd3f41
  
  */
 
@@ -113,12 +108,25 @@
 /*--------------------------------------------------------------------------*/
 /* DATA STRUCTURES */
 /*--------------------------------------------------------------------------*/
-<<<<<<< HEAD
+ContFramePool* ContFramePool::pool_list;
+
+/*--------------------------------------------------------------------------*/
+/* CONSTANTS */
+/*--------------------------------------------------------------------------*/
 
 /* -- (none) -- */
-=======
+
+/*--------------------------------------------------------------------------*/
+/* FORWARDS */
+/*--------------------------------------------------------------------------*/
+
+/* -- (none) -- */
+
+/*--------------------------------------------------------------------------*/
+/* METHODS FOR CLASS   C o n t F r a m e P o o l */
+/*--------------------------------------------------------------------------*/
+/*--------------------------------------------------------------------------*/
 ContFramePool* ContFramePool::pool_list;
->>>>>>> 58c29c1b77140d689479eae5957316eb6cbd3f41
 
 /*--------------------------------------------------------------------------*/
 /* CONSTANTS */
@@ -136,28 +144,132 @@ ContFramePool* ContFramePool::pool_list;
 /* METHODS FOR CLASS   C o n t F r a m e P o o l */
 /*--------------------------------------------------------------------------*/
 
-<<<<<<< HEAD
 ContFramePool::ContFramePool(unsigned long _base_frame_no,
                              unsigned long _n_frames,
                              unsigned long _info_frame_no,
-                             unsigned long _n_info_frames)
+                             unsigned long _n_info_frames){
+    // TODO: IMPLEMENTATION NEEEDED!
+
+    /*Constructor: Initialize all frames to FREE, except for any frames that you 
+      need for the management of the frame pool, if any.
+    */
+    assert(_nframes <= FRAME_SIZE * 8);
+    
+    base_frame_no = _base_frame_no;
+    nframes = _n_frames;
+    nFreeFrames = _n_frames;
+    info_frame_no = _info_frame_no;
+    n_info_frames = _n_info_frames;
+    
+    // If _info_frame_no is zero then we keep management info in the first
+    //frame, else we use the provided frame to keep management info
+    if(info_frame_no == 0) {
+        bitmap = (unsigned char *) (base_frame_no * FRAME_SIZE);
+    } else {
+        bitmap = (unsigned char *) (info_frame_no * FRAME_SIZE);
+    }
+     assert ((nframes % 8 ) == 0);
+    
+    // Everything ok. Proceed to mark all bits in the bitmap huge nut okey for now
+    for(int i=0; i*8 < _nframes; i++) {
+        bitmap[i] = 0xFFFF;
+    }
+
+    if(_info_frame_no == 0) {
+        bitmap[0] = 0x3FFF;
+        nFreeFrames--;
+    }
+
+
+     if (ContFramePool::pool_list==NULL)
+                ContFramePool::pool_list=this;
+     else
+        pool_list->next = this;
+    
+     prev = pool_list;
+    Console::puts("Frame Pool initialized\n");
+}
+
+unsigned long ContFramePool::get_frames(unsigned int _n_frames)
 {
     // TODO: IMPLEMENTATION NEEEDED!
-    assert(false);
-=======
-
- static unsigned char MASK[] = {128, 64, 32, 16, 8, 4, 2, 1};
-
-
-    bool IsNthbit (unsigned char& c, int n) {
-        return ((c & MASK[n]) == 0);
+     // Any frames left to allocate?
+    assert(nFreeFrames > 0);
+    Console::puts("In get frames"); 
+    // Find a frame that is not being used and return its frame index.
+    // Mark that frame as being used in the bitmap.
+   /*
+    for(int k = 0 ; k < 10 ;++k){
+    Console::puti(bitmap[k]); 
+   }
+   */
+    unsigned int frame_no = base_frame_no;
+    Console::puti(frame_no); 
+    unsigned int i = 0;
+    int space = 0;
+    while(space != _n_frames){
+        for(;i<256;++i){
+            bitmap[i]
+        }
     }
-    void SetNthbit(unsigned char& c, int n){
-            c = c|MASK[n];
+    
+    unsigned char mask = 0x80;
+    while ((mask & bitmap[i]) == 0) {
+        mask = mask >> 1;
+        frame_no++;
     }
-    void ClearNthbit(unsigned char& c, int n){
-            c= c&(~MASK[n]);
+    nFreeFrames--;
+    
+    // Update bitmap
+    bitmap[i] = bitmap[i] ^ mask;
+    
+    return (frame_no);
+
+
+
+
+
+    while(i<nframes){
+        int j = i; 
+        if(bitmap[i] == 'F'){
+    
+    Console::puti(i); 
+    
+    Console::puts("==F\n"); 
+            for (;j-i+1<=_n_frames; j++){
+        
+    Console::puti(i); 
+    Console::puts("and"); 
+    Console::puti(j); 
+    Console::puts("\n"); 
+                if (bitmap[j] != 'F'){
+                    break;
+                }
+            }
+        }
+        if(j-i == _n_frames)
+                break;
+        
+        i = j+1;
     }
+
+    //if (i == nframes) return 0;
+
+    for(int x = i;x < _n_frames;x++){
+        if(x==i)
+            bitmap[x]='H';
+        else{
+            bitmap[x]='A';
+        }
+    }
+        
+    Console::puts("\n"); 
+    Console::puti(i); 
+    frame_no += i;   
+    Console::puts("\n"); 
+    nFreeFrames -= _n_frames;
+    return (frame_no);
+}
 
 
 ContFramePool::ContFramePool(unsigned long _base_frame_no,
@@ -181,20 +293,22 @@ ContFramePool::ContFramePool(unsigned long _base_frame_no,
     //frame, else we use the provided frame to keep management info
     if(info_frame_no == 0) {
         bitmap = (unsigned char *) (base_frame_no * FRAME_SIZE);
-        avamap = bitmap+1024;//store second map 1024 bytes later
-        memset(bitmap,0,FRAME_SIZE); //intial
-        memset(bitmap,0x80,1);//sets first bit to 1 if info_frame_no == 0 
-        info_frame_no=base_frame_no;//store new info_frame_number
     } else {
-         bitmap = (unsigned char *) (info_frame_no * FRAME_SIZE);//pointer address initilaize
-         avamap = bitmap+1024;//store second map 1024 bytes later
-         memset(avamap,0,FRAME_SIZE); // initial
+        bitmap = (unsigned char *) (info_frame_no * FRAME_SIZE);
     }
     
     // Everything ok. Proceed to mark all bits in the bitmap huge nut okey for now
+    for(int i=0; i < _n_frames; i++) {
+        bitmap[i]='F';
+    }
     
-    assert ((nframes % 8 ) == 0);
-
+    // Mark the first frame as being used if it is being used
+/* 
+   if(_info_frame_no == 0) {
+        bitmap[0] = 'H';
+        nFreeFrames--;
+    }
+*/
      if (ContFramePool::pool_list==NULL)
                 ContFramePool::pool_list=this;
      else
@@ -202,79 +316,10 @@ ContFramePool::ContFramePool(unsigned long _base_frame_no,
     
      prev = pool_list;
     Console::puts("Frame Pool initialized\n");
->>>>>>> 58c29c1b77140d689479eae5957316eb6cbd3f41
 }
 
 unsigned long ContFramePool::get_frames(unsigned int _n_frames)
 {
-<<<<<<< HEAD
-    // TODO: IMPLEMENTATION NEEEDED!
-    assert(false);
-=======
-    unsigned int i=0;
-    int space =0;
-     for (;i<nframes/8;++i){ //access bitmap 1 byte at a time
-            if(bitmap[i]^0xFF!=0){ // some bit availible
-                for (int j=0;j<8;++j){ 
-                    if(IsNthbit(bitmap[i],j) && IsNthbit(avamap[i],j))//linear probe block to find empty page
-                    {
-                    if(_n_frames ==1){
-                       SetNthbit(bitmap[i],j);
-                       SetNthbit(avamap[i],j);
-                       return base_frame_no+i*8+j;//return frame number 
-		    } 
-		       int k = j;
-			for(; k <8 && space < _n_frames;++k){
-                            if (!(IsNthbit(bitmap[i],k) && IsNthbit(avamap[i],k)))
-                                break;
-                            else
-                                space+=1;
-                        }
-                        if(k==8&&space<_n_frames){
-                          int l = 0; 
-			  for(; l <8 && space < _n_frames ;++l){
-                              if(IsNthbit(bitmap[i+1],l) && IsNthbit(avamap[i+1],l)){
-                                    space+=1;
-                                if (space == _n_frames){
-				int lm = 0;
-                                    for(; lm<= l ;++lm){
-                                        SetNthbit(bitmap[i+1],lm);
-                                    }
-                                    for(int mark = i*8+j ; mark < i*8+j+_n_frames-lm;++mark){
-                                      if(mark == i*8+j){
-                                        SetNthbit(bitmap[i],mark-(i*8));
-                                        SetNthbit(avamap[i],mark-(i*8)); //mark frame as used
-                                      }
-                                      else 
-                                        SetNthbit(bitmap[i],mark-(i*8)); //mark frame as used
-
-                                    }
-                                    return base_frame_no+i*8+j;//return frame number 
-                                }
-                              }
-                              else 
-                                break;
-                            }
-                        }
-                        else if(space == _n_frames){
-                            for(int mark = i*8+j ; mark < i*8+j+_n_frames;++mark){
-                                      if(mark == i*8+j){
-                                        SetNthbit(avamap[i],mark-(i*8));
-                                        SetNthbit(bitmap[i],mark-(i*8)); //mark frame as used
-                                      }
-                                      else 
-                                        SetNthbit(bitmap[i],mark-(i*8)); //mark frame as used
-                            }
-                            return base_frame_no+i*8+j;//return frame number 
-                        }
-                    }
-                }
-            }
-    }
-
-    Console::puts("Err no free frames found\n");
-    return 0;
-    /*
     // TODO: IMPLEMENTATION NEEEDED!
      // Any frames left to allocate?
     assert(nFreeFrames > 0);
@@ -327,35 +372,11 @@ unsigned long ContFramePool::get_frames(unsigned int _n_frames)
     Console::puts("\n"); 
     nFreeFrames -= _n_frames;
     return (frame_no);
-*/
->>>>>>> 58c29c1b77140d689479eae5957316eb6cbd3f41
 }
 
 void ContFramePool::mark_inaccessible(unsigned long _base_frame_no,
                                       unsigned long _n_frames)
 {
-<<<<<<< HEAD
-    // TODO: IMPLEMENTATION NEEEDED!
-    assert(false);
-}
-
-void ContFramePool::release_frames(unsigned long _first_frame_no)
-{
-    // TODO: IMPLEMENTATION NEEEDED!
-    assert(false);
-=======
-if(_base_frame_no<base_frame_no||_base_frame_no+_n_frames>=base_frame_no+nframes)
-            Console::puts("Err cannot mark frames inaccessible, out of range\n");
-        else
-            {
-            memset(avamap,0xFF,_n_frames/8); //sets all but the last few bits as used
-            for(unsigned int i=0;i<_n_frames%8;++i){
-                SetNthbit(avamap[_n_frames/8],i);//sets remainder bits as used
-                }
-            }
-
-}
-   /*
     // TODO: IMPLEMENTATION NEEEDED!
     unsigned long i = 0;
     for(i = _base_frame_no; i < _base_frame_no + _n_frames; i++){
@@ -365,7 +386,6 @@ if(_base_frame_no<base_frame_no||_base_frame_no+_n_frames>=base_frame_no+nframes
 }
 void ContFramePool::mark_inaccessible(unsigned long _frame_no)
 {
-    
     // Let's first do a range check.
     assert ((_frame_no >= base_frame_no) && (_frame_no < base_frame_no + nframes));
     
@@ -377,13 +397,10 @@ void ContFramePool::mark_inaccessible(unsigned long _frame_no)
     // Update bitmap
     bitmap[bitmap_index] = 'X';
     nFreeFrames--;
-
 }
-*/
 void ContFramePool::release_frames(unsigned long _first_frame_no)
 {
- //	Console::puts("In release frame\n");
-	ContFramePool* curr=ContFramePool::pool_list;
+ ContFramePool* curr=ContFramePool::pool_list;
  
        //determine if frame is in curr
         if (curr->base_frame_no+ curr->nframes <= _first_frame_no)
@@ -396,62 +413,19 @@ void ContFramePool::release_frames(unsigned long _first_frame_no)
             }
         }
        
-        unsigned char* frame_byte = &curr->bitmap[(_first_frame_no-curr->base_frame_no)/8];//gets byte containing frame
-        unsigned char* next_frame_byte = &curr->bitmap[(_first_frame_no-curr->base_frame_no)/8+1];
-        unsigned char* ava_byte = &curr->avamap[(_first_frame_no-curr->base_frame_no)/8+1];
-        unsigned char* next_ava_byte = &curr->avamap[(_first_frame_no-curr->base_frame_no)/8];
-         ClearNthbit(*frame_byte,(_first_frame_no-(curr->base_frame_no))%8);
-         ClearNthbit(*ava_byte,(_first_frame_no-(curr->base_frame_no))%8);
-         int k = (_first_frame_no-(curr->base_frame_no))%8+1;
-/*
-        bool flag = true;
-        while(flag){
-            if
-
+        unsigned char* frame_byte = curr->bitmap;//gets byte containing frame
+        unsigned char* ava_byte = curr->bitmap;
+        if(frame_byte[_first_frame_no/8]==){
+            frame_byte[_first_frame_no++] = 'F';
+            while(frame_byte[_first_frame_no]!='F'&&frame_byte[_first_frame_no]!='H'){
+                frame_byte[_first_frame_no++] = 'F';
+            }
         }
-  */
-        if(k==8){
-          k = 0; 
-          frame_byte= next_frame_byte;
-          ava_byte = next_ava_byte;
-         }
-   for (int i = 0 ; i < 4 ; ++i){
-     if( !IsNthbit(*frame_byte,k) && !IsNthbit(*ava_byte,k)){
-        break;
-     }
-     else{
-        if(!IsNthbit(*frame_byte,k))
-         ClearNthbit(*frame_byte,k);
-        else if( !IsNthbit(*ava_byte,k))
-         ClearNthbit(*ava_byte,k);
-     
-     k = k+1;
-     if(k==8){
-          k = 0; 
-          frame_byte= next_frame_byte;
-          ava_byte = next_ava_byte;
-         }
-     }
-   }      
-    /*
-    while(flag){
-        if(!IsNthbit(frame_byte[_first_frame_no/8],_first_frame_no%8)&&!IsNthbit(ava_byte[_first_frame_no/8],_first_frame_no%8)){
-                
-        }
-
-    }
-    */
-        
->>>>>>> 58c29c1b77140d689479eae5957316eb6cbd3f41
 }
 
 unsigned long ContFramePool::needed_info_frames(unsigned long _n_frames)
 {
     // TODO: IMPLEMENTATION NEEEDED!
-<<<<<<< HEAD
-    assert(false);
-=======
     // one char each
-   return  _n_frames/8 +(_n_frames % 8 > 0 ? 1 : 0);
->>>>>>> 58c29c1b77140d689479eae5957316eb6cbd3f41
+    return  _n_frames/8 +(_n_frames % 8 > 0 ? 1 : 0);
 }
