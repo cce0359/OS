@@ -45,7 +45,7 @@ PageTable::PageTable()
 
     num_registered_vmpools = 0;
 
-    for(i=0; i<MAX_VM; i++){
+    for(unsigned int i=0; i<MAX_VM; i++){
         registered_vmpools[i] = NULL;
     }
 
@@ -101,7 +101,7 @@ void PageTable::handle_fault(REGS * _r)
             }
           }
 
-          if (vm_index<0)
+          if (vm_index==-1)
             Console::puts("INVALID ADDRESS\n");
 
 
@@ -121,7 +121,7 @@ void PageTable::handle_fault(REGS * _r)
 
                   address = (address>>22)<<22;
                   for(int i=0; i<1024; i++){
-                      temp_addr = (unsigned long*) (((address >> 12) << 2 ) | ((0x03FF)<<22));
+                      unsigned long* temp_addr = (unsigned long*) (((address >> 12) << 2 ) | ((0x03FF)<<22));
                       *temp_addr = 4;
                       address = ((address>>12)+1)<<12;
                   }
@@ -158,7 +158,7 @@ void PageTable::handle_fault(REGS * _r)
   Console::puts("handled page fault\n");
 }
 
-void PageTable::register_vmpool(VMPool *_pool) {
+void PageTable::register_pool(VMPool *_pool) {
   if(this->registered_vmpools[this->num_registered_vmpools]==NULL
     &&num_registered_vmpools<MAX_VM){
     this->registered_vmpools[this->num_registered_vmpools] = _pool;
@@ -181,10 +181,10 @@ void PageTable::free_page(unsigned long _page_no) {
 
     unsigned long PhysicalFrameNo;
     unsigned long * PageTableEntryPtr;
-    PageTableEntryPtr = (unsigned long *) (((address >> 12) << 2 ) | ((0x03FF)<<22));
+    PageTableEntryPtr = (unsigned long *) (((_page_no >> 12) << 2 ) | ((0x03FF)<<22));
     PhysicalFrameNo = (*PageTableEntryPtr) >> 12;
     *PageTableEntryPtr = 0;
-    process_mem_pool->release_frame(PhysicalFrameNo);
+    process_mem_pool->release_frames(PhysicalFrameNo);
     Console::puts("freed page\n");
 
 

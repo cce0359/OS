@@ -21,7 +21,7 @@
 #include "utils.H"
 #include "assert.H"
 #include "simple_keyboard.H"
-
+#include "page_table.H"
 /*--------------------------------------------------------------------------*/
 /* DATA STRUCTURES */
 /*--------------------------------------------------------------------------*/
@@ -48,11 +48,11 @@ VMPool::VMPool(unsigned long  _base_address,
                unsigned long  _size,
                ContFramePool *_frame_pool,
                PageTable     *_page_table):_base_address(_base_address),size (_size)
-              ,frame_pool (_frame_pool),page_table (_page_table){
+              ,frame_pool (_frame_pool),page_table(_page_table){
     num_regions=0;
-    max_regions= PageTable::PAGE_SIZE/sizeof(region_info);
-    regions = (region_info*)(PageTable::PAGE_SIZE * (frame_pool->get_frames(1)));
-    page_table->register_vmpool(this);
+    max_regions= Machine::PAGE_SIZE/sizeof(region_info);
+    regions = (region_info*)(Machine::PAGE_SIZE * (frame_pool->get_frames(1)));
+    page_table -> register_pool(this);
     Console::puts("Constructed VMPool object.\n");
 }
 
@@ -66,10 +66,10 @@ unsigned long VMPool::allocate(unsigned long _size) {
     else
         start = regions[num_regions-1].base_address + regions[num_regions-1].size;
     
-    regions[region_count].base_address = start;
-    regions[region_count].size = _size;
+    regions[num_regions].base_address = start;
+    regions[num_regions].size = _size;
      ++num_regions;
-     if(region_count>max_regions){
+     if(num_regions>max_regions){
                 Console::puts("out of space");
                 for(;;);
       }
@@ -100,7 +100,7 @@ void VMPool::release(unsigned long _start_address) {
                 regions[new_count]=old[k];
             ++new_count;
         }
-        frame_pool->release_frame((unsigned long)old/PageTable::PAGE_SIZE);
+        frame_pool->release_frames((unsigned long)old/Machine::PAGE_SIZE);
         // flush the TLB
         page_table->load();
 
@@ -109,10 +109,13 @@ void VMPool::release(unsigned long _start_address) {
 }
 
 bool VMPool::is_legitimate(unsigned long _address) {
-    if(!regions)
+    /*if(!regions)
             if((regions[0].base_address <= _address) && (_address < (regions[0].base_address + regions[0].size)))
                 return true;
     return false;
     Console::puts("Checked whether address is part of an allocated region.\n");
+	*/
+
+
 }
 
