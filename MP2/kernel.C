@@ -55,6 +55,7 @@
 
 void test_memory(ContFramePool * _pool, unsigned int _allocs_to_go);
 
+void test(ContFramePool * _pool);
 /*--------------------------------------------------------------------------*/
 /* MAIN ENTRY INTO THE OS */
 /*--------------------------------------------------------------------------*/
@@ -93,8 +94,8 @@ int main() {
     Console::puts("Hello World!\n");
 
     /* -- TEST MEMORY ALLOCATOR */
-    
-    test_memory(&kernel_mem_pool,32);
+      test(&kernel_mem_pool);  
+   // test_memory(&kernel_mem_pool,32);
 
     /* ---- Add code here to test the frame pool implementation. */
     
@@ -107,14 +108,24 @@ int main() {
     /* -- WE DO THE FOLLOWING TO KEEP THE COMPILER HAPPY. */
     return 1;
 }
+void test(ContFramePool * _pool){
+    	 Console::puti(_pool->get_frames(129)); Console::puts("\n");
+    	 Console::puti(_pool->get_frames(247)); Console::puts("\n");
+    	 Console::puti(_pool->get_frames(373)); Console::puts("\n");
+    	 Console::puti(_pool->get_frames(765)); Console::puts("\n");
+	
 
+        ContFramePool::release_frames(1153);
+
+}
 void test_memory(ContFramePool * _pool, unsigned int _allocs_to_go) {
     Console::puts("alloc_to_go = "); Console::puti(_allocs_to_go); Console::puts("\n");
     if (_allocs_to_go > 0) {
         int n_frames = _allocs_to_go % 4 + 1;
         unsigned long frame = _pool->get_frames(n_frames);
     	 Console::puti(frame); Console::puts("\n");
-       // 0x00==0x0?Console::puts("true"):Console::puts("false");
+       
+	// 0x00==0x0?Console::puts("true"):Console::puts("false");
 	int * value_array = (int*)(frame * (4 KB));        
         for (int i = 0; i < (1 KB) * n_frames; i++) {
             value_array[i] = _allocs_to_go;
