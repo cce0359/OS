@@ -1,0 +1,118 @@
+/*
+ File: vm_pool.C
+ 
+ Author:
+ Date  :
+ 
+ */
+
+/*--------------------------------------------------------------------------*/
+/* DEFINES */
+/*--------------------------------------------------------------------------*/
+
+/* -- (none) -- */
+
+/*--------------------------------------------------------------------------*/
+/* INCLUDES */
+/*--------------------------------------------------------------------------*/
+
+#include "vm_pool.H"
+#include "console.H"
+#include "utils.H"
+#include "assert.H"
+#include "simple_keyboard.H"
+
+/*--------------------------------------------------------------------------*/
+/* DATA STRUCTURES */
+/*--------------------------------------------------------------------------*/
+
+/* -- (none) -- */
+
+/*--------------------------------------------------------------------------*/
+/* CONSTANTS */
+/*--------------------------------------------------------------------------*/
+
+/* -- (none) -- */
+
+/*--------------------------------------------------------------------------*/
+/* FORWARDS */
+/*--------------------------------------------------------------------------*/
+
+/* -- (none) -- */
+
+/*--------------------------------------------------------------------------*/
+/* METHODS FOR CLASS   V M P o o l */
+/*--------------------------------------------------------------------------*/
+
+VMPool::VMPool(unsigned long  _base_address,
+               unsigned long  _size,
+               ContFramePool *_frame_pool,
+               PageTable     *_page_table):_base_address(_base_address),size (_size)
+              ,frame_pool (_frame_pool),page_table (_page_table){
+    num_regions=0;
+    max_regions= PageTable::PAGE_SIZE/sizeof(region_info);
+    regions = (region_info*)(PageTable::PAGE_SIZE * (frame_pool->get_frames(1)));
+    page_table->register_vmpool(this);
+    Console::puts("Constructed VMPool object.\n");
+}
+
+unsigned long VMPool::allocate(unsigned long _size) {
+    if(_size==0)
+            return 0;//failed allocation because size was 0
+
+    unsigned long start = 0; //where the starting address of the new region will be
+    if(num_regions==0)// if allocated list is empty
+        start = _base_address;
+    else
+        start = regions[num_regions-1].base_address + regions[num_regions-1].size;
+    
+    regions[region_count].base_address = start;
+    regions[region_count].size = _size;
+     ++num_regions;
+     if(region_count>max_regions){
+                Console::puts("out of space");
+                for(;;);
+      }
+      return start;
+    Console::puts("Allocated region of memory.\n");
+}
+
+void VMPool::release(unsigned long _start_address) {
+    unsigned int index=0;
+        for(unsigned int i; i < num_regions; i++)
+            if(regions[i].base_address == _start_address){
+                index=i;
+                break;
+            }
+
+        for (unsigned int j = 0; j < regions[index].size/PageTable::PAGE_SIZE; j++)
+        {
+            page_table->free_page(_start_address);
+            _start_address = _start_address + PageTable::PAGE_SIZE;
+        }
+        //restructure array
+
+        region_info* old= regions;
+        regions=  (region_info*)(PageTable::PAGE_SIZE * (frame_pool->get_frames(1)));
+        unsigned int new_count=0;
+        for (unsigned int k=0;k<num_regions;++k){
+            if (k!=index)
+                regions[new_count]=old[k];
+            ++new_count;
+        }
+        frame_pool->release_frame((unsigned long)old/PageTable::PAGE_SIZE);
+        // flush the TLB
+        page_table->load();
+
+
+    Console::puts("Released region of memory.\n");
+}
+
+bool VMPool::is_legitimate(unsigned long _address) {
+    if(!regions)
+            if((regions[0].base_address <= _address) && (_address < (regions[0].base_address + regions[0].size)))
+                return true;
+    return false;
+    Console::puts("Checked whether address is part of an allocated region.\n");
+}
+

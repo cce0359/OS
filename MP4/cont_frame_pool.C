@@ -1,13 +1,8 @@
 /*
  File: ContFramePool.C
  
-<<<<<<< HEAD
- Author:
- Date  : 
-=======
  Author: Chia-wei Chang
  Date  : 6/18 2017
->>>>>>> 58c29c1b77140d689479eae5957316eb6cbd3f41
  
  */
 
@@ -113,12 +108,7 @@
 /*--------------------------------------------------------------------------*/
 /* DATA STRUCTURES */
 /*--------------------------------------------------------------------------*/
-<<<<<<< HEAD
-
-/* -- (none) -- */
-=======
 ContFramePool* ContFramePool::pool_list;
->>>>>>> 58c29c1b77140d689479eae5957316eb6cbd3f41
 
 /*--------------------------------------------------------------------------*/
 /* CONSTANTS */
@@ -136,15 +126,6 @@ ContFramePool* ContFramePool::pool_list;
 /* METHODS FOR CLASS   C o n t F r a m e P o o l */
 /*--------------------------------------------------------------------------*/
 
-<<<<<<< HEAD
-ContFramePool::ContFramePool(unsigned long _base_frame_no,
-                             unsigned long _n_frames,
-                             unsigned long _info_frame_no,
-                             unsigned long _n_info_frames)
-{
-    // TODO: IMPLEMENTATION NEEEDED!
-    assert(false);
-=======
 
  static unsigned char MASK[] = {128, 64, 32, 16, 8, 4, 2, 1};
 
@@ -202,15 +183,10 @@ ContFramePool::ContFramePool(unsigned long _base_frame_no,
     
      prev = pool_list;
     Console::puts("Frame Pool initialized\n");
->>>>>>> 58c29c1b77140d689479eae5957316eb6cbd3f41
 }
 
 unsigned long ContFramePool::get_frames(unsigned int _n_frames)
 {
-<<<<<<< HEAD
-    // TODO: IMPLEMENTATION NEEEDED!
-    assert(false);
-=======
     unsigned int i=0;
     int space =0;
      for (;i<nframes/8;++i){ //access bitmap 1 byte at a time
@@ -328,22 +304,11 @@ unsigned long ContFramePool::get_frames(unsigned int _n_frames)
     nFreeFrames -= _n_frames;
     return (frame_no);
 */
->>>>>>> 58c29c1b77140d689479eae5957316eb6cbd3f41
 }
 
 void ContFramePool::mark_inaccessible(unsigned long _base_frame_no,
                                       unsigned long _n_frames)
 {
-<<<<<<< HEAD
-    // TODO: IMPLEMENTATION NEEEDED!
-    assert(false);
-}
-
-void ContFramePool::release_frames(unsigned long _first_frame_no)
-{
-    // TODO: IMPLEMENTATION NEEEDED!
-    assert(false);
-=======
 if(_base_frame_no<base_frame_no||_base_frame_no+_n_frames>=base_frame_no+nframes)
             Console::puts("Err cannot mark frames inaccessible, out of range\n");
         else
@@ -442,16 +407,11 @@ void ContFramePool::release_frames(unsigned long _first_frame_no)
     }
     */
         
->>>>>>> 58c29c1b77140d689479eae5957316eb6cbd3f41
 }
 
 unsigned long ContFramePool::needed_info_frames(unsigned long _n_frames)
 {
     // TODO: IMPLEMENTATION NEEEDED!
-<<<<<<< HEAD
-    assert(false);
-=======
     // one char each
    return  _n_frames/8 +(_n_frames % 8 > 0 ? 1 : 0);
->>>>>>> 58c29c1b77140d689479eae5957316eb6cbd3f41
 }
