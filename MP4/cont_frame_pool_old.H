@@ -42,17 +42,7 @@ class ContFramePool {
     
 private:
     /* -- DEFINE YOUR CONT FRAME POOL DATA STRUCTURE(s) HERE. */
-    unsigned char * bitmap;        // We implement the simple frame pool with a bitmap
-    unsigned char * avamap;  
-    unsigned int    nFreeFrames;   //
-    unsigned long   base_frame_no; // Where does the frame pool start in phys mem?
-    unsigned long   nframes;       // Size of the frame pool
-    unsigned long   info_frame_no; // Where do we store the management information?
-    unsigned long   n_info_frames;
-
-    static ContFramePool* pool_list;
-    ContFramePool* prev; 
-    ContFramePool* next; 
+    
 public:
 
     // The frame size is the same as the page size, duh...    
@@ -62,13 +52,12 @@ public:
                   unsigned long _n_frames,
                   unsigned long _info_frame_no,
                   unsigned long _n_info_frames);
-
     /*
      Initializes the data structures needed for the management of this
      frame pool.
      _base_frame_no: Number of first frame managed by this frame pool.
      _n_frames: Size, in frames, of this frame pool.
-     EXAMPLE: If _base_frame_no is 16 and _n_frames is 4, this frame pool manages
+     EXAMPLE: If _base_frame_no is 16 and _nframes is 4, this frame pool manages
      physical frames numbered 16, 17, 18 and 19.
      _info_frame_no: Number of the first frame that should be used to store the
      management information for the frame pool.
@@ -101,9 +90,7 @@ public:
      _base_frame_no: Number of first frame to mark as inaccessible.
      _n_frames: Number of contiguous frames to mark as inaccessible.
      */
-
-    void mark_inaccessible(unsigned long _frame_no);
-
+    
     static void release_frames(unsigned long _first_frame_no);
     /*
      Releases a previously allocated contiguous sequence of frames
@@ -124,7 +111,7 @@ public:
      (not appropriate for contiguous allocation) one would need one frame to manage a 
      frame pool with up to 8 * 4096 = 32k frames = 128MB of memory!
      This function would therefore return the following value:
-      sss(always round up!)
+       _n_frames / 32k + (_n_frames % 32k > 0 ? 1 : 0) (always round up!)
      Other implementations need a different number of info frames.
      The exact number is computed in this function..
      */
