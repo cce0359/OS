@@ -115,6 +115,13 @@ bool VMPool::is_legitimate(unsigned long _address) {
     return false;
     Console::puts("Checked whether address is part of an allocated region.\n");
 	*/
+for(unsigned long i = 0; i < this->num_regions; i++) {
+		unsigned long region_boundry = this->regions[i].base_address + this->regions[i].size;
+		if(_address >= this->regions[i].base_address && _address <= region_boundry) {
+			return 1;
+		}
+	}
+	return 0;
 
 
 }
