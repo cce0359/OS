@@ -85,7 +85,7 @@ void VMPool::release(unsigned long _start_address) {
                 break;
             }
 
-        for (unsigned int j = 0; j < regions[index].size/PageTable::PAGE_SIZE; j++)
+        for (unsigned int j = 0; j < regions[index].size/Machine::PAGE_SIZE; j++)
         {
             page_table->free_page(_start_address);
             _start_address = _start_address + PageTable::PAGE_SIZE;
@@ -93,10 +93,10 @@ void VMPool::release(unsigned long _start_address) {
         //restructure array
 
         region_info* old= regions;
-        regions=  (region_info*)(PageTable::PAGE_SIZE * (frame_pool->get_frames(1)));
+        regions=  (region_info*)(Machine::PAGE_SIZE * (frame_pool->get_frames(1)));
         unsigned int new_count=0;
         for (unsigned int k=0;k<num_regions;++k){
-            if (k!=index)
+            if (k!=index)s
                 regions[new_count]=old[k];
             ++new_count;
         }
@@ -115,6 +115,10 @@ bool VMPool::is_legitimate(unsigned long _address) {
     return false;
     Console::puts("Checked whether address is part of an allocated region.\n");
 	*/
+    if((_address > (base_address + size)) || (_address <  base_address))
+        return FALSE;
+    return TRUE;
+    /*
 for(unsigned long i = 0; i < this->num_regions; i++) {
 		unsigned long region_boundry = this->regions[i].base_address + this->regions[i].size;
 		if(_address >= this->regions[i].base_address && _address <= region_boundry) {
@@ -122,6 +126,7 @@ for(unsigned long i = 0; i < this->num_regions; i++) {
 		}
 	}
 	return 0;
+    */
 
 
 }
