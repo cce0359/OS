@@ -92,7 +92,10 @@ void PageTable::handle_fault(REGS * _r)
     if((err_code&1) == 0){ //not present fault 
          VMPool** vm_head = current_page_table->registered_vmpools;
          int vm_index=-1;
-          for(unsigned int i=0;i<current_page_table->num_registered_vmpools;++i){
+ //        Console::puti(current_page_table->num_registered_vmpools);
+  //       Console::puts("\n");
+		
+	 for(unsigned int i=0;i<current_page_table->num_registered_vmpools;++i){
             if(vm_head[i]!=NULL){
                 if (vm_head[i]->is_legitimate(address)){
                     vm_index=i;
@@ -101,16 +104,16 @@ void PageTable::handle_fault(REGS * _r)
             }
           }
 
-          if (vm_index==-1)
-            Console::puts("INVALID ADDRESS\n");
+//          if (vm_index==-1)
+//           Console::puts("INVALID ADDRESS\n");
 
 
-          unsigned long* dir_address =(unsigned long*) (((address >> 12) << 2 ) | ((0xFFFFF)<<12));//1023 =  2^10-1
+          unsigned long* dir_address =(unsigned long*) (((address >> 22) << 2 ) | ((0xFFFFF)<<12));//1023 =  2^10-1
           unsigned long* page_address =(unsigned long*) (((address >> 12) << 2 ) | ((0x03FF)<<22));//1048575 = 2^20-1
           //switch off the bit that we don't need
 
           if(vm_head[vm_index] != NULL){
-                if(*dir_address & 1 == 1){
+                if((*dir_address & 1) == 1){
                   *page_address = PageTable::process_mem_pool->get_frames(1);
                   *page_address = (*page_address << 12) | 5;
                 }
@@ -159,8 +162,8 @@ void PageTable::handle_fault(REGS * _r)
 }
 
 void PageTable::register_pool(VMPool *_pool) {
-  if(this->registered_vmpools[this->num_registered_vmpools]==NULL
-    &&num_registered_vmpools<MAX_VM){
+  if((this->registered_vmpools[this->num_registered_vmpools]==NULL)
+    &&(num_registered_vmpools<MAX_VM)){
     this->registered_vmpools[this->num_registered_vmpools] = _pool;
     this->num_registered_vmpools++;
   }

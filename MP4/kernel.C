@@ -229,8 +229,8 @@ int main() {
 
     /* -- CREATE THE VM POOLS. */
 
-    VMPool code_pool(512 MB, 256 MB, &process_mem_pool, &pt1);
-    VMPool heap_pool(1 GB, 256 MB, &process_mem_pool, &pt1);
+   VMPool code_pool(512 MB, 256 MB, &process_mem_pool, &pt1);
+   VMPool heap_pool(1 GB, 256 MB, &process_mem_pool, &pt1);
     
     /* -- NOW THE POOLS HAVE BEEN CREATED. */
 

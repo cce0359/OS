@@ -96,7 +96,7 @@ void VMPool::release(unsigned long _start_address) {
         regions=  (region_info*)(Machine::PAGE_SIZE * (frame_pool->get_frames(1)));
         unsigned int new_count=0;
         for (unsigned int k=0;k<num_regions;++k){
-            if (k!=index)s
+            if (k!=index)
                 regions[new_count]=old[k];
             ++new_count;
         }
@@ -114,11 +114,11 @@ bool VMPool::is_legitimate(unsigned long _address) {
                 return true;
     return false;
     Console::puts("Checked whether address is part of an allocated region.\n");
-	*/
-    if((_address > (base_address + size)) || (_address <  base_address))
-        return FALSE;
-    return TRUE;
-    /*
+	
+    if((_address > (_base_address + size)) || (_address <  _base_address))
+        return false;
+    return true;
+    */
 for(unsigned long i = 0; i < this->num_regions; i++) {
 		unsigned long region_boundry = this->regions[i].base_address + this->regions[i].size;
 		if(_address >= this->regions[i].base_address && _address <= region_boundry) {
@@ -126,7 +126,6 @@ for(unsigned long i = 0; i < this->num_regions; i++) {
 		}
 	}
 	return 0;
-    */
 
 
 }
