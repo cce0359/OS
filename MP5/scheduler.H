@@ -54,10 +54,58 @@
 /* SCHEDULER */
 /*--------------------------------------------------------------------------*/
 
+class Queue{
+    private:
+      Thread* thread;
+      Queue* next;
+    public:
+      Queue(){
+        thread=NULL;
+        next=NULL;
+      }
+      Queue(Thread* t){
+        thread=t;
+        next=NULL;
+      }
+      Queue(Queue& n){//copy constructor
+        thread=n.thread;
+        next=n.next;
+      }
+      void enqueue(Thread* t){/
+        if (!thread)
+            thread=t;
+        else
+            if (!next)
+                next = new Queue(t);
+            else
+                next->enqueue(t);
+      }
+      Thread* dequeue(){
+        if (thread)
+            return NULL;
+        if (!next){
+            Thread* popped_t = thread;
+            thread = next -> thread;
+            Queue* consumed = next;
+            next = next -> next;
+            delete consumed;
+            return popped_t; 
+        }
+        else{
+          Thread* temp=thread;
+          thread=NULL;
+          return temp;
+        }
+      }
+};
+
+
+
 class Scheduler {
 
   /* The scheduler may need private members... */
-  
+   Queue   ready_queue;
+   int     size;
 public:
 
    Scheduler();

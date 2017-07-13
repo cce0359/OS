@@ -73,7 +73,9 @@ static void thread_shutdown() {
        This is a bit complicated because the thread termination interacts with the scheduler.
      */
 
-    assert(false);
+     SYSTEM_SCHEDULER->terminate(Thread::CurrentThread());//remove thread from scheduler, if it exists
+     delete current_thread;//deletes the thread
+     SYSTEM_SCHEDULER->yield();//give cpu to other threads
     /* Let's not worry about it for now. 
        This means that we should have non-terminating thread functions. 
     */
@@ -81,7 +83,7 @@ static void thread_shutdown() {
 
 static void thread_start() {
      /* This function is used to release the thread for execution in the ready queue. */
-    
+     Machine::enable_interrupts();
      /* We need to add code, but it is probably nothing more than enabling interrupts. */
 }
 

@@ -10,7 +10,10 @@
 /* DEFINES */
 /*--------------------------------------------------------------------------*/
 
-/* -- (none) -- */
+#ifndef NULL
+#define NULL 0L
+#endif
+
 
 /*--------------------------------------------------------------------------*/
 /* INCLUDES */
@@ -46,22 +49,38 @@
 /*--------------------------------------------------------------------------*/
 
 Scheduler::Scheduler() {
-  assert(false);
+  size=0;
+  //ready_queue = new Queue(); Already construct
   Console::puts("Constructed Scheduler.\n");
 }
 
 void Scheduler::yield() {
-  assert(false);
+  		if (size!=0){
+            --size;
+            Thread* curr= ready_queue.dequeue(); //get next queue waiting
+            Thread::dispatch_to(curr);// run new thread
+        }
 }
 
 void Scheduler::resume(Thread * _thread) {
-  assert(false);
+		ready_queue.enqueue(_thread);//add thread to queue
+        ++size;
 }
 
 void Scheduler::add(Thread * _thread) {
-  assert(false);
+  		ready_queue.enqueue(_thread);//add thread to queue
+        ++queue_size;
 }
 
 void Scheduler::terminate(Thread * _thread) {
-  assert(false);
+  	 bool found=false;
+        for (int i=0;i<size;++i){
+            Thread* temp=ready_queue.dequeue();
+            if (temp->ThreadId()==_thread->ThreadId())
+                found=true;
+            else 
+                ready_queue.enqueue(temp);
+        }
+        if (found)
+            --size;
 }

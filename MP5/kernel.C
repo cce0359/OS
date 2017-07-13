@@ -65,7 +65,13 @@
 /*--------------------------------------------------------------------------*/
 /* MEMORY MANAGEMENT */
 /*--------------------------------------------------------------------------*/
-
+#define SPIN_TIME 5000000
+void spin_wait(char* msg){
+    Console::puts(msg);
+    for(unsigned int j = 0; j < SPIN_TIME ; j++){
+     asm("NOP");
+    }
+}
 /* -- A POOL OF FRAMES FOR THE SYSTEM TO USE */
 FramePool * SYSTEM_FRAME_POOL;
 
