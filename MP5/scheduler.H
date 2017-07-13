@@ -71,7 +71,7 @@ class Queue{
         thread=n.thread;
         next=n.next;
       }
-      void enqueue(Thread* t){/
+      void enqueue(Thread* t){
         if (!thread)
             thread=t;
         else
@@ -81,9 +81,9 @@ class Queue{
                 next->enqueue(t);
       }
       Thread* dequeue(){
-        if (thread)
+        if (!thread)
             return NULL;
-        if (!next){
+        if (next){
             Thread* popped_t = thread;
             thread = next -> thread;
             Queue* consumed = next;
@@ -91,11 +91,10 @@ class Queue{
             delete consumed;
             return popped_t; 
         }
-        else{
+        
           Thread* temp=thread;
           thread=NULL;
           return temp;
-        }
       }
 };
 

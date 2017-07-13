@@ -32,7 +32,7 @@
 #include "console.H"
 
 #include "frame_pool.H"
-
+#include "scheduler.H"
 #include "thread.H"
 
 #include "threads_low.H"
@@ -40,7 +40,7 @@
 /*--------------------------------------------------------------------------*/
 /* EXTERNS */
 /*--------------------------------------------------------------------------*/
-
+extern Scheduler*  SYSTEM_SCHEDULER;
 Thread * current_thread = 0;
 /* Pointer to the currently running thread. This is used by the scheduler,
    for example. */

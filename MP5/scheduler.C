@@ -55,7 +55,7 @@ Scheduler::Scheduler() {
 }
 
 void Scheduler::yield() {
-  		if (size!=0){
+  	if (size!=0){
             --size;
             Thread* curr= ready_queue.dequeue(); //get next queue waiting
             Thread::dispatch_to(curr);// run new thread
@@ -63,13 +63,17 @@ void Scheduler::yield() {
 }
 
 void Scheduler::resume(Thread * _thread) {
-		ready_queue.enqueue(_thread);//add thread to queue
+	ready_queue.enqueue(_thread);//add thread to queue
         ++size;
+	
+	Console::puts("size");
+	Console::puti(size);
+	Console::puts("\n");
 }
 
 void Scheduler::add(Thread * _thread) {
-  		ready_queue.enqueue(_thread);//add thread to queue
-        ++queue_size;
+  	ready_queue.enqueue(_thread);//add thread to queue
+        ++size;
 }
 
 void Scheduler::terminate(Thread * _thread) {
