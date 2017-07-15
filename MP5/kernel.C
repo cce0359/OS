@@ -145,8 +145,23 @@ Thread * thread4;
 
 /* -- THE 4 FUNCTIONS fun1 - fun4 ARE LARGELY IDENTICAL. */
 
-pass_on_CPU
+void fun1() {
+    Console::puts("Thread: "); Console::puti(Thread::CurrentThread()->ThreadId()); Console::puts("\n");
+    Console::puts("FUN 1 INVOKED!\n");
 
+#ifdef _TERMINATING_FUNCTIONS_
+    for(int j = 0; j < 10; j++) 
+#else
+    for(int j = 0;; j++) 
+#endif  
+    {       
+        Console::puts("FUN 1 IN BURST["); Console::puti(j); Console::puts("]\n");
+        for (int i = 0; i < 10; i++) {
+            Console::puts("FUN 1: TICK ["); Console::puti(i); Console::puts("]\n");
+        }
+        pass_on_CPU(thread2);
+    }
+}
 
 void fun2() {
     Console::puts("Thread: "); Console::puti(Thread::CurrentThread()->ThreadId()); Console::puts("\n");
