@@ -1,4 +1,4 @@
 make clean 
 make 
 ./copykernel.sh 
-bochs -f bochsrc.bxrc
+bochs -f bochsrc.bxrc > out.out

@@ -112,7 +112,11 @@ void operator delete[] (void * p) {
 Scheduler * SYSTEM_SCHEDULER;
 
 #endif
-
+Thread * thread1;
+Thread * thread2;
+Thread * thread3;
+Thread * thread4;
+Thread * thread0;
 void pass_on_CPU(Thread * _to_thread) {
   // Hand over CPU from current thread to _to_thread.
   
@@ -128,9 +132,13 @@ void pass_on_CPU(Thread * _to_thread) {
            we pre-empt the current thread by putting it onto the ready
            queue and yielding the CPU. */
 
-    SYSTEM_SCHEDULER->resume(Thread::CurrentThread());
+       SYSTEM_SCHEDULER->resume(Thread::CurrentThread());
        // SYSTEM_SCHEDULER->resume(_to_thread);
-	SYSTEM_SCHEDULER->yield();
+	if( SYSTEM_SCHEDULER->get_size()==1)
+	Thread::dispatch_to(thread0);
+			
+       SYSTEM_SCHEDULER->yield();
+	
 #endif
 }
 
@@ -138,15 +146,11 @@ void pass_on_CPU(Thread * _to_thread) {
 /* A FEW THREADS (pointer to TCB's and thread functions) */
 /*--------------------------------------------------------------------------*/
 
-Thread * thread1;
-Thread * thread2;
-Thread * thread3;
-Thread * thread4;
-
 /* -- THE 4 FUNCTIONS fun1 - fun4 ARE LARGELY IDENTICAL. */
 void fun0() {
     Console::puts("Thread: "); Console::puti(Thread::CurrentThread()->ThreadId()); Console::puts("\n");
     Console::puts("FUN 0 INVOKED!\n");
+
 }
 void fun1() {
     Console::puts("Thread: "); Console::puti(Thread::CurrentThread()->ThreadId()); Console::puts("\n");
@@ -304,6 +308,9 @@ int main() {
     thread4 = new Thread(fun4, stack4, 1024);
     Console::puts("DONE\n");
 
+    
+    char * stack0 = new char[1024];
+    thread0 = new Thread(fun0, stack0, 1024);
 #ifdef _USES_SCHEDULER_
 
     /* WE ADD thread2 - thread4 TO THE READY QUEUE OF THE SCHEDULER. */

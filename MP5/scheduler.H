@@ -106,7 +106,9 @@ class Scheduler {
    Queue   ready_queue;
    int     size;
 public:
-
+   int get_size(){
+	return size;
+   }
    Scheduler();
    /* Setup the scheduler. This sets up the ready queue, for example.
       If the scheduler implements some sort of round-robin scheme, then the 
