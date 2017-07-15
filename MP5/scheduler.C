@@ -84,7 +84,8 @@ void Scheduler::terminate(Thread * _thread) {
                 found=true;
             else 
                 ready_queue.enqueue(temp);
-        }
+           delete temp;
+	}
         if (found)
             --size;
 }
