@@ -128,7 +128,7 @@ void pass_on_CPU(Thread * _to_thread) {
            we pre-empt the current thread by putting it onto the ready
            queue and yielding the CPU. */
 
-        SYSTEM_SCHEDULER->resume(Thread::CurrentThread());
+    SYSTEM_SCHEDULER->resume(Thread::CurrentThread());
        // SYSTEM_SCHEDULER->resume(_to_thread);
 	SYSTEM_SCHEDULER->yield();
 #endif
@@ -144,7 +144,10 @@ Thread * thread3;
 Thread * thread4;
 
 /* -- THE 4 FUNCTIONS fun1 - fun4 ARE LARGELY IDENTICAL. */
-
+void fun0() {
+    Console::puts("Thread: "); Console::puti(Thread::CurrentThread()->ThreadId()); Console::puts("\n");
+    Console::puts("FUN 0 INVOKED!\n");
+}
 void fun1() {
     Console::puts("Thread: "); Console::puti(Thread::CurrentThread()->ThreadId()); Console::puts("\n");
     Console::puts("FUN 1 INVOKED!\n");
