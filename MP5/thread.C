@@ -72,7 +72,7 @@ static void thread_shutdown() {
        It terminates the thread by releasing memory and any other resources held by the thread. 
        This is a bit complicated because the thread termination interacts with the scheduler.
      */
-
+     Console::puts("IN thread_shutdown of the thread.C");
      SYSTEM_SCHEDULER->terminate(Thread::CurrentThread());//remove thread from scheduler, if it exists
      delete current_thread;//deletes the thread
      SYSTEM_SCHEDULER->yield();//give cpu to other threads
