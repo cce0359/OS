@@ -27,19 +27,19 @@
 /*--------------------------------------------------------------------------*/
 
 #include "interrupts.H"
-
+#include "scheduler.H"
 /*--------------------------------------------------------------------------*/
 /* S I M P L E   T I M E R  */
 /*--------------------------------------------------------------------------*/
 
+extern Scheduler* SYSTEM_SCHEDULER;
 class SimpleTimer : public InterruptHandler {
-
 private:
 
   /* How long has the system been running? */
   unsigned long seconds; 
   int           ticks;   /* ticks since last "seconds" update.    */
-
+ int counter;
   /* At what frequency do we update the ticks counter? */
   int hz;                /* Actually, by defaults it is 18.22Hz.
                             In this way, a 16-bit counter wraps

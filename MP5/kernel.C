@@ -166,7 +166,10 @@ void fun1() {
         for (int i = 0; i < 10; i++) {
             Console::puts("FUN 1: TICK ["); Console::puti(i); Console::puts("]\n");
         }
-        pass_on_CPU(thread2);
+	//comment or uncomment depend on testing
+	//RR will need to comment out the following
+	//FIFO will need to uncomment
+        //pass_on_CPU(thread2);
     }
 }
 
@@ -184,7 +187,11 @@ void fun2() {
         for (int i = 0; i < 10; i++) {
             Console::puts("FUN 2: TICK ["); Console::puti(i); Console::puts("]\n");
         }
-        pass_on_CPU(thread3);
+        	//comment or uncomment depend on testing
+	//RR will need to comment out the following
+	//FIFO will need to uncomment
+        
+	//pass_on_CPU(thread3);
     }
 }
 
@@ -197,7 +204,12 @@ void fun3() {
         for (int i = 0; i < 10; i++) {
 	    Console::puts("FUN 3: TICK ["); Console::puti(i); Console::puts("]\n");
         }
-        pass_on_CPU(thread4);
+
+	//comment or uncomment depend on testing
+	//RR will need to comment out the following
+	//FIFO will need to uncomment
+        
+        //pass_on_CPU(thread4);
     }
 }
 
@@ -210,7 +222,12 @@ void fun4() {
         for (int i = 0; i < 10; i++) {
 	    Console::puts("FUN 4: TICK ["); Console::puti(i); Console::puts("]\n");
         }
-        pass_on_CPU(thread1);
+
+	//comment or uncomment depend on testing
+	//RR will need to comment out the following
+	//FIFO will need to uncomment
+        
+        //pass_on_CPU(thread1);
     }
 }
 

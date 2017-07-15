@@ -24,7 +24,7 @@
 #include "console.H"
 #include "interrupts.H"
 #include "simple_timer.H"
-
+#include "thread.H"
 /*--------------------------------------------------------------------------*/
 /* CONSTRUCTOR */
 /*--------------------------------------------------------------------------*/
@@ -33,7 +33,7 @@ SimpleTimer::SimpleTimer(int _hz) {
   /* How long has the system been running? */
   seconds =  0; 
   ticks   =  0; /* ticks since last "seconds" update.    */
-
+  counter =0 ;
   /* At what frequency do we update the ticks counter? */
   /* hz      = 18; */
                 /* Actually, by defaults it is 18.22Hz.
@@ -58,12 +58,19 @@ void SimpleTimer::handle_interrupt(REGS *_r) {
     ticks++;
 
     /* Whenever a second is over, we update counter accordingly. */
-    if (ticks >= hz )
+    if (ticks >= hz/20 )//ticks>hz ==1 sec ticke>hz/20 ==50 msec 
     {
-        seconds++;
         ticks = 0;
-        Console::puts("One second has passed\n");
+	counter++;
+	SYSTEM_SCHEDULER->resume(Thread::CurrentThread());
+	SYSTEM_SCHEDULER->yield();
+	
     }
+    if(counter>=20){
+	seconds++;
+	counter = 0;
+        Console::puts("One second has passed\n");
+	}
 }
 
 
