@@ -22,6 +22,9 @@
 /*--------------------------------------------------------------------------*/
 
 #include "simple_disk.H"
+#include "scheduler.H"
+
+extern Scheduler* SYSTEM_SCHEDULER;
 
 /*--------------------------------------------------------------------------*/
 /* DATA STRUCTURES */ 
@@ -34,6 +37,8 @@
 /*--------------------------------------------------------------------------*/
 
 class BlockingDisk : public SimpleDisk {
+protected:
+     virtual void wait_until_ready();
 public:
    BlockingDisk(DISK_ID _disk_id, unsigned int _size); 
    /* Creates a BlockingDisk device with the given size connected to the 
@@ -44,12 +49,6 @@ public:
 
    /* DISK OPERATIONS */
 
-   virtual void read(unsigned long _block_no, unsigned char * _buf);
-   /* Reads 512 Bytes from the given block of the disk and copies them 
-      to the given buffer. No error check! */
-
-   virtual void write(unsigned long _block_no, unsigned char * _buf);
-   /* Writes 512 Bytes from the buffer to the given block on the disk. */
 
 };
 
