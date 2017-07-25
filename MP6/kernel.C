@@ -19,7 +19,7 @@
 
 /* -- COMMENT/UNCOMMENT THE FOLLOWING LINE TO EXCLUDE/INCLUDE SCHEDULER CODE */
 
-//#define _USES_SCHEDULER_
+#define _USES_SCHEDULER_
 /* This macro is defined when we want to force the code below to use 
    a scheduler.
    Otherwise, no scheduler is used, and the threads pass control to each 
@@ -40,20 +40,18 @@
 #include "irq.H"
 #include "exceptions.H"     
 #include "interrupts.H"
-
 #include "simple_timer.H"    /* TIMER MANAGEMENT  */
 
 #include "frame_pool.H"      /* MEMORY MANAGEMENT */
 #include "mem_pool.H"
 
 #include "thread.H"         /* THREAD MANAGEMENT */
-
 #ifdef _USES_SCHEDULER_
 #include "scheduler.H"      /* WE WILL NEED A SCHEDULER WITH BlockingDisk */
 #endif
 
 #include "simple_disk.H"    /* DISK DEVICE */
-                            /* YOU MAY NEED TO INCLUDE blocking_disk.H
+                            /* YOU MAY NEED TO INCLUDE blocking_disk.H*/
 /*--------------------------------------------------------------------------*/
 /* MEMORY MANAGEMENT */
 /*--------------------------------------------------------------------------*/

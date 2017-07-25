@@ -22,7 +22,12 @@
 #include "utils.H"
 #include "console.H"
 #include "blocking_disk.H"
+#include "simple_disk.H"
+#include"scheduler.H"
+#include"thread.H"
 
+
+extern Scheduler* SYSTEM_SCHEDULER;
 /*--------------------------------------------------------------------------*/
 /* CONSTRUCTOR */
 /*--------------------------------------------------------------------------*/
@@ -31,11 +36,12 @@ BlockingDisk::BlockingDisk(DISK_ID _disk_id, unsigned int _size)
   : SimpleDisk(_disk_id, _size) {
 }
 
-void BlockDisk::wait_until_ready(){
+void BlockingDisk::wait_until_ready(){
         while(!is_ready()){
-                SYSTEM_SCHEDULER->add(Thread::CurrentThread());
-                SYSTEM_SCHEDULER->yield();
+        	SYSTEM_SCHEDULER->add(Thread::CurrentThread());
+          	SYSTEM_SCHEDULER->yield();
         }
+}
 /*--------------------------------------------------------------------------*/
 /* SIMPLE_DISK FUNCTIONS */
 /*--------------------------------------------------------------------------*/
