@@ -31,7 +31,7 @@
 00000000000i[      ]   SB16 support: no
 00000000000i[      ]   USB support: no
 00000000000i[      ]   VGA extension support: vbe
-00000000000i[MEM0  ] allocated memory at 0x7fc6294e9010. after alignment, vector=0x7fc6294ea000
+00000000000i[MEM0  ] allocated memory at 0x7f6770cb1010. after alignment, vector=0x7f6770cb2000
 00000000000i[MEM0  ] 32.00MB
 00000000000i[MEM0  ] mem block size = 0x00100000, blocks=32
 00000000000i[MEM0  ] rom at 0xfffe0000/131072 ('BIOS-bochs-latest')
@@ -172,32 +172,32 @@
 00001793098i[PCI   ] i440FX PMC write to PAM register 59 (TLB Flush)
 00001794110i[BIOS  ] bios_table_cur_addr: 0x000fb994
 00001872257i[BIOS  ] ata0-0: PCHS=306/4/17 translation=none LCHS=306/4/17
-00001930435i[BIOS  ] ata0-1: PCHS=306/4/17 translation=none LCHS=306/4/17
-00011069973i[XGUI  ] charmap update. Font Height is 16
-07044575118i[BIOS  ] Booting from 0000:7c00
-07063447325i[XGUI  ] charmap update. Font Height is 16
-07109215373i[XGUI  ] charmap update. Font Height is 16
-07116481889i[XGUI  ] charmap update. Font Height is 16
-07254420000p[XGUI  ] >>PANIC<< POWER button turned off.
-07254420000i[CPU0  ] CPU is in protected mode (active)
-07254420000i[CPU0  ] CS.mode = 32 bit
-07254420000i[CPU0  ] SS.mode = 32 bit
-07254420000i[CPU0  ] EFER   = 0x00000000
-07254420000i[CPU0  ] | EAX=000b8b03  EBX=000b8000  ECX=00000f00  EDX=0000000f
-07254420000i[CPU0  ] | ESP=00200f88  EBP=00200f98  ESI=00000000  EDI=00000000
-07254420000i[CPU0  ] | IOPL=0 id vip vif ac vm rf nt of df if tf sf zf af PF cf
-07254420000i[CPU0  ] | SEG sltr(index|ti|rpl)     base    limit G D
-07254420000i[CPU0  ] |  CS:0008( 0001| 0|  0) 00000000 ffffffff 1 1
-07254420000i[CPU0  ] |  DS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
-07254420000i[CPU0  ] |  SS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
-07254420000i[CPU0  ] |  ES:0010( 0002| 0|  0) 00000000 ffffffff 1 1
-07254420000i[CPU0  ] |  FS:0000( 0000| 0|  0) 00000000 00000000 0 0
-07254420000i[CPU0  ] |  GS:0000( 0000| 0|  0) 00000000 00000000 0 0
-07254420000i[CPU0  ] | EIP=00100214 (00100214)
-07254420000i[CPU0  ] | CR0=0x60000011 CR2=0x00000000
-07254420000i[CPU0  ] | CR3=0x00000000 CR4=0x00000000
-07254420000i[CPU0  ] 0x00100214>> cmp dword ptr ss:[ebp+16], 0x00000000 : 837D1000
-07254420000i[CMOS  ] Last time is 946683013 (Fri Dec 31 17:30:13 1999)
-07254420000i[XGUI  ] Exit
-07254420000i[      ] restoring default signal behavior
-07254420000i[SIM   ] quit_sim called with exit code 1
+00001930458i[BIOS  ] ata0-1: PCHS=306/4/17 translation=none LCHS=306/4/17
+00011937733i[XGUI  ] charmap update. Font Height is 16
+06807575241i[BIOS  ] Booting from 0000:7c00
+06822811081i[XGUI  ] charmap update. Font Height is 16
+06868375769i[XGUI  ] charmap update. Font Height is 16
+06877059857i[XGUI  ] charmap update. Font Height is 16
+07037244000p[XGUI  ] >>PANIC<< POWER button turned off.
+07037244000i[CPU0  ] CPU is in protected mode (active)
+07037244000i[CPU0  ] CS.mode = 32 bit
+07037244000i[CPU0  ] SS.mode = 32 bit
+07037244000i[CPU0  ] EFER   = 0x00000000
+07037244000i[CPU0  ] | EAX=000b88ee  EBX=000b8000  ECX=00000f00  EDX=00000020
+07037244000i[CPU0  ] | ESP=00200548  EBP=00200558  ESI=00000000  EDI=00000000
+07037244000i[CPU0  ] | IOPL=0 id vip vif ac vm rf nt of df if tf sf zf af pf cf
+07037244000i[CPU0  ] | SEG sltr(index|ti|rpl)     base    limit G D
+07037244000i[CPU0  ] |  CS:0008( 0001| 0|  0) 00000000 ffffffff 1 1
+07037244000i[CPU0  ] |  DS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+07037244000i[CPU0  ] |  SS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+07037244000i[CPU0  ] |  ES:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+07037244000i[CPU0  ] |  FS:0000( 0000| 0|  0) 00000000 00000000 0 0
+07037244000i[CPU0  ] |  GS:0000( 0000| 0|  0) 00000000 00000000 0 0
+07037244000i[CPU0  ] | EIP=00100208 (00100208)
+07037244000i[CPU0  ] | CR0=0x60000011 CR2=0x00000000
+07037244000i[CPU0  ] | CR3=0x00000000 CR4=0x00000000
+07037244000i[CPU0  ] 0x00100208>> add dword ptr ss:[ebp-8], 0x00000001 : 8345F801
+07037244000i[CMOS  ] Last time is 946682959 (Fri Dec 31 17:29:19 1999)
+07037244000i[XGUI  ] Exit
+07037244000i[      ] restoring default signal behavior
+07037244000i[SIM   ] quit_sim called with exit code 1

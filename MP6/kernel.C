@@ -50,6 +50,7 @@
 #include "scheduler.H"      /* WE WILL NEED A SCHEDULER WITH BlockingDisk */
 #endif
 
+#include "blocking_disk.H"    /* DISK DEVICE */
 #include "simple_disk.H"    /* DISK DEVICE */
                             /* YOU MAY NEED TO INCLUDE blocking_disk.H*/
 /*--------------------------------------------------------------------------*/
@@ -102,7 +103,7 @@ Scheduler * SYSTEM_SCHEDULER;
 /*--------------------------------------------------------------------------*/
 
 /* -- A POINTER TO THE SYSTEM DISK */
-SimpleDisk * SYSTEM_DISK;
+BlockingDisk * SYSTEM_DISK;
 
 #define SYSTEM_DISK_SIZE (10 MB)
 
@@ -165,7 +166,9 @@ void fun2() {
     unsigned char buf[512];
     int  read_block  = 1;
     int  write_block = 0;
-
+    unsigned char buff[5] = {'1','2','3','4','5'};
+	
+    SYSTEM_DISK->write(write_block, buff); 
     for(int j = 0;; j++) {
 
        Console::puts("FUN 2 IN ITERATION["); Console::puti(j); Console::puts("]\n");
@@ -284,7 +287,7 @@ int main() {
 
     /* -- DISK DEVICE -- */
 
-    SYSTEM_DISK = new SimpleDisk(MASTER, SYSTEM_DISK_SIZE);
+    SYSTEM_DISK = new BlockingDisk(MASTER, SYSTEM_DISK_SIZE);
    
     /* NOTE: The timer chip starts periodically firing as 
              soon as we enable interrupts.
