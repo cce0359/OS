@@ -163,8 +163,8 @@ void fun2() {
 
     Console::puts("FUN 2 INVOKED!\n");
 
-  //  unsigned char buf[512];
-    unsigned char * buf = new unsigned char[512];
+    unsigned char buf[512];
+  //  unsigned char * buf = new unsigned char[512];
     int  read_block  = 1;
     int  write_block = 0;
     unsigned char buff[5] = {'a','a','a','a','a'};
@@ -219,8 +219,8 @@ void fun3() {
 
     Console::puts("FUN 3 INVOKED!\n");
 
-  //  unsigned char buf[512];
-    unsigned char * buf = new unsigned char[512];
+    unsigned char buf[512];
+  //  unsigned char * buf = new unsigned char[512];
     int  read_block  = 1;
     int  write_block = 0;
     unsigned char buff[5] = {'a','a','a','a','a'};
