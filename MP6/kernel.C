@@ -280,9 +280,10 @@ int main() {
 #ifdef _USES_SCHEDULER_
 
     /* -- SCHEDULER -- IF YOU HAVE ONE -- */
-  
     SYSTEM_SCHEDULER = new Scheduler();
-
+    
+	
+	
 #endif
 
     /* -- DISK DEVICE -- */
@@ -295,6 +296,7 @@ int main() {
              would get a lot of uncaptured interrupts otherwise. */  
 
     /* -- ENABLE INTERRUPTS -- */
+    SYSTEM_SCHEDULER->add_BlockDisk(SYSTEM_DISK);
 
      Machine::enable_interrupts();
 

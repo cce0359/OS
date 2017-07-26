@@ -52,11 +52,15 @@
 Scheduler::Scheduler() {
   size=0;
   //ready_queue = new Queue(); Already construct
-  Console::puts("Constructed Scheduler.\n");
+ 	this ->diak =NULL;
+   Console::puts("Constructed Scheduler.\n");
 }
 
 void Scheduler::yield() {
-  	if (size!=0){
+  if(this -> disk !=NULL && this ->disk->is_ready())
+	this ->disk->resume_from_queue();
+
+    if (size!=0){
             --size;
             Thread* curr= ready_queue.dequeue(); //get next queue waiting
             Thread::dispatch_to(curr);// run new thread
@@ -91,4 +95,8 @@ void Scheduler::terminate(Thread * _thread) {
         }
         if (found)
             --size;
+}
+
+void Scheduler::add_BlockDisk(BlockingDisk * _disk) {
+	this->disk = _disk;
 }

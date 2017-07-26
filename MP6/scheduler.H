@@ -98,13 +98,15 @@ class Queue{
       }
 };
 
-
+class BlockingDisk; 
 
 class Scheduler {
 
   /* The scheduler may need private members... */
    Queue   ready_queue;
    int     size;
+	
+	BlockingDisk* disk; 
 public:
    int get_size(){
 	return size;
@@ -137,7 +139,7 @@ public:
    /* Remove the given thread from the scheduler in preparation for destruction
       of the thread. 
       Graciously handle the case where the thread wants to terminate itself.*/
-  
+ void add_BlockDisk(BlockingDisk* _disk ); 
 };
 	
 	
