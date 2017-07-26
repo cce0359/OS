@@ -195,7 +195,7 @@ void fun2() {
        pass_on_CPU(thread3);
     }
 }
-
+/*
 void fun3() {
     Console::puts("THREAD: "); Console::puti(Thread::CurrentThread()->ThreadId()); Console::puts("\n");
 
@@ -212,6 +212,46 @@ void fun3() {
        pass_on_CPU(thread4);
     }
 }
+*/
+
+void fun3() {
+    Console::puts("THREAD: "); Console::puti(Thread::CurrentThread()->ThreadId()); Console::puts("\n");
+
+    Console::puts("FUN 3 INVOKED!\n");
+
+  //  unsigned char buf[512];
+    unsigned char * buf = new unsigned char[512];
+    int  read_block  = 1;
+    int  write_block = 0;
+    unsigned char buff[5] = {'a','a','a','a','a'};
+	
+    SYSTEM_DISK->write(1, buff); 
+    for(int j = 0;; j++) {
+
+       Console::puts("FUN 3 IN ITERATION["); Console::puti(j); Console::puts("]\n");
+
+       /* -- Read */
+       Console::puts("Reading a block from disk...\n");
+       SYSTEM_DISK->read(read_block, buf);
+
+       /* -- Display */
+       int i;
+       for (i = 0; i < 512; i++) {
+	  Console::puti(buf[i]);
+       }
+
+       Console::puts("Writing a block to disk...\n");
+       SYSTEM_DISK->write(write_block, buf); 
+
+       /* -- Move to next block */
+       write_block = read_block;
+       read_block  = (read_block + 1) % 10;
+
+       /* -- Give up the CPU */
+       pass_on_CPU(thread4);
+    }
+}
+
 
 void fun4() {
     Console::puts("THREAD: "); Console::puti(Thread::CurrentThread()->ThreadId()); Console::puts("\n");
