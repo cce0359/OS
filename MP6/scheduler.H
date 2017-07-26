@@ -20,7 +20,7 @@
 /*--------------------------------------------------------------------------*/
 
 #include "thread.H"
-
+#include "blocking_disk.H"
 /*--------------------------------------------------------------------------*/
 /* !!! IMPLEMENTATION HINT !!! */
 /*--------------------------------------------------------------------------*/
@@ -106,7 +106,7 @@ class Scheduler {
    Queue   ready_queue;
    int     size;
 	
-	BlockingDisk* disk; 
+    BlockingDisk* disk; 
 public:
    int get_size(){
 	return size;

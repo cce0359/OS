@@ -81,7 +81,10 @@ void SimpleDisk::read(unsigned long _block_no, unsigned char * _buf) {
   wait_until_ready();
 
   /* read data from port */
-  int i;
+
+
+	Console::puts("start reading \n");
+	 int i;
   unsigned short tmpw;
   for (i = 0; i < 256; i++) {
     tmpw = Machine::inportw(0x1F0);
@@ -98,6 +101,7 @@ void SimpleDisk::write(unsigned long _block_no, unsigned char * _buf) {
   wait_until_ready();
 
   /* write data to port */
+	Console::puts("start writing \n");
   int i; 
   unsigned short tmpw;
   for (i = 0; i < 256; i++) {

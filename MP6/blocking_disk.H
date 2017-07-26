@@ -24,7 +24,6 @@
 #include "simple_disk.H"
 #include "scheduler.H"
 #include "thread.H"
-extern Scheduler* SYSTEM_SCHEDULER;
 
 /*--------------------------------------------------------------------------*/
 /* DATA STRUCTURES */ 
@@ -35,15 +34,17 @@ extern Scheduler* SYSTEM_SCHEDULER;
 /*--------------------------------------------------------------------------*/
 /* B l o c k i n g D i s k  */
 /*--------------------------------------------------------------------------*/
-
+class Scheduler;
+class Queue;
 class BlockingDisk : public SimpleDisk {
 protected:
   Scheduler *scheduler;
-  static Queue blocked_thread_queue_head;
+  Queue* blocked_thread_queue_head;
      virtual void wait_until_ready();
      void add_to_queue(Thread *_thread);
+int size;
 public:
-   BlockingDisk(DISK_ID _disk_id, unsigned int _size); 
+   BlockingDisk(DISK_ID _disk_id, unsigned int _size,Scheduler *scheduler);
    /* Creates a BlockingDisk device with the given size connected to the 
       MASTER or SLAVE slot of the primary ATA controller.
       NOTE: We are passing the _size argument out of laziness. 
@@ -53,7 +54,7 @@ public:
      /* Resume a thread from the blocked thread queue when the disk has completed the
         read/write. */
      
-     BOOLEAN is_ready();
+   bool is_ready();
    /* DISK OPERATIONS */
 
 

@@ -52,13 +52,13 @@
 Scheduler::Scheduler() {
   size=0;
   //ready_queue = new Queue(); Already construct
- 	this ->diak =NULL;
+ 	this ->disk =NULL;
    Console::puts("Constructed Scheduler.\n");
 }
 
 void Scheduler::yield() {
-  if(this -> disk !=NULL && this ->disk->is_ready())
-	this ->disk->resume_from_queue();
+  if(disk !=NULL && disk->is_ready())
+	disk->resume_from_queue();
 
     if (size!=0){
             --size;
@@ -98,5 +98,5 @@ void Scheduler::terminate(Thread * _thread) {
 }
 
 void Scheduler::add_BlockDisk(BlockingDisk * _disk) {
-	this->disk = _disk;
+	disk = _disk;
 }

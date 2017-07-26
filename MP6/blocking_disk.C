@@ -36,9 +36,12 @@ BlockingDisk::BlockingDisk(DISK_ID _disk_id, unsigned int _size, Scheduler *_sch
   : SimpleDisk(_disk_id, _size) {
     this->scheduler = _scheduler;
     size = 0;
+    this->blocked_thread_queue_head = new Queue();
 }
 
 void BlockingDisk::wait_until_ready(){
+	Console::puti(is_ready());
+	Console::puts("in blocking disk \n");
        if(!is_ready()) {
         Thread *th = Thread::CurrentThread();
         this->add_to_queue(th);
@@ -47,8 +50,7 @@ void BlockingDisk::wait_until_ready(){
   }
 
   void BlockingDisk::add_to_queue(Thread *_thread) {
-
-    ready_queue.enqueue(_thread);//add thread to queue
+    blocked_thread_queue_head->enqueue(_thread);//add thread to queue
     ++size;
 }
 void BlockingDisk::resume_from_queue() {
@@ -56,11 +58,11 @@ void BlockingDisk::resume_from_queue() {
     Console::puts("Error: Blocked queue is NULL.\n");
   } 
   else {
-    Thread *th = this->blocked_thread_queue_head.dequeue();
+    Thread *th = this->blocked_thread_queue_head->dequeue();
     this->scheduler->resume(th); 
   }
 }
-BOOLEAN BlockingDisk::is_ready() {
+bool BlockingDisk::is_ready() {
   return SimpleDisk::is_ready();
 }
 

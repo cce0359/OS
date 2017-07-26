@@ -163,12 +163,13 @@ void fun2() {
 
     Console::puts("FUN 2 INVOKED!\n");
 
-    unsigned char buf[512];
+  //  unsigned char buf[512];
+    unsigned char * buf = new unsigned char[512];
     int  read_block  = 1;
     int  write_block = 0;
-    unsigned char buff[5] = {'1','2','3','4','5'};
+    unsigned char buff[5] = {'a','a','a','a','a'};
 	
-    SYSTEM_DISK->write(write_block, buff); 
+    SYSTEM_DISK->write(1, buff); 
     for(int j = 0;; j++) {
 
        Console::puts("FUN 2 IN ITERATION["); Console::puti(j); Console::puts("]\n");
@@ -180,7 +181,7 @@ void fun2() {
        /* -- Display */
        int i;
        for (i = 0; i < 512; i++) {
-	  Console::putch(buf[i]);
+	  Console::puti(buf[i]);
        }
 
        Console::puts("Writing a block to disk...\n");
@@ -288,7 +289,7 @@ int main() {
 
     /* -- DISK DEVICE -- */
 
-    SYSTEM_DISK = new BlockingDisk(MASTER, SYSTEM_DISK_SIZE);
+    SYSTEM_DISK = new BlockingDisk(MASTER, SYSTEM_DISK_SIZE,SYSTEM_SCHEDULER);
    
     /* NOTE: The timer chip starts periodically firing as 
              soon as we enable interrupts.

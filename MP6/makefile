@@ -55,7 +55,7 @@ simple_keyboard.o: simple_keyboard.C simple_keyboard.H
 simple_disk.o: simple_disk.C simple_disk.H
 	$(CPP) $(CPP_OPTIONS) -c -o simple_disk.o simple_disk.C
 
-blocking_disk.o: blocking_disk.C blocking_disk.H simple_disk.H
+blocking_disk.o: blocking_disk.C blocking_disk.H simple_disk.H thread.H scheduler.H
 	$(CPP) $(CPP_OPTIONS) -c -o blocking_disk.o blocking_disk.C
 
 # ==== MEMORY =====
