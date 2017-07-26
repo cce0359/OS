@@ -40,7 +40,7 @@ class BlockingDisk : public SimpleDisk {
 protected:
   Scheduler *scheduler;
   Queue* blocked_thread_queue_head;
-     virtual void wait_until_ready();
+     void wait_until_ready();
      void add_to_queue(Thread *_thread);
 int size;
 public:
@@ -59,5 +59,14 @@ public:
 
 
 };
-
+/*
+class MirroredDisk:public BlockingDisk{
+public:
+    MirroredDisk(DISK_ID _disk_id, unsigned int _size): SimpleDisk(_disk_id, _size){};
+    void read(unsigned long _block_no,unsigned char* _buf);
+    void write(unsigned long _block_no, unsigned char* _buf);
+    Thread* get_thread();
+private:
+    queue* blockq;
+};*/
 #endif
