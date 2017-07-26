@@ -48,7 +48,14 @@ void BlockingDisk::wait_until_ready(){
         this->scheduler->yield();
       }
   }
-
+  /*
+  void BlockingDisk::wait_until_ready(){
+   while (!is_ready()) {
+            SYSTEM_SCHEDULER->resume(Thread::CurrentThread());//place current thread on ready queue
+            SYSTEM_SCHEDULER->yield();//yield processor while we wait for io to be ready
+            }
+  }
+  */
   void BlockingDisk::add_to_queue(Thread *_thread) {
     blocked_thread_queue_head->enqueue(_thread);//add thread to queue
     ++size;
