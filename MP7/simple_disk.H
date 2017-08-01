@@ -64,8 +64,9 @@ protected:
      /* Return true if disk is ready to transfer data from/to disk, false otherwise. */
 
      virtual void wait_until_ready() {
-        while (!is_ready()) { SYSTEM_SCHEDULER->resume(Thread::CurrentThread());
-		SYSTEM_SCHEDULER->yield();
+        while (!is_ready()) { 
+	//	SYSTEM_SCHEDULER->resume(Thread::CurrentThread());
+	//	SYSTEM_SCHEDULER->yield();
 	 }
      }
      /* Is called after each read/write operation to check whether the disk is
