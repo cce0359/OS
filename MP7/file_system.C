@@ -56,9 +56,9 @@ FileSystem::FileSystem() {
 bool FileSystem::Mount(SimpleDisk * _disk) {
     
      disk=_disk;
-	Console::puts("b1");
-        disk->read(0,disk_buff);
-	Console::puts("b3");
+	//Console::puts("b1");
+        //disk->read(0a,disk_buff);
+	//Console::puts("b3");
 
         num_files=block->size;
 	Console::puti(num_files);
