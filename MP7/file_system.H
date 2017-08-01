@@ -37,6 +37,16 @@
 /*--------------------------------------------------------------------------*/
 /* DATA STRUCTURES */ 
 /*--------------------------------------------------------------------------*/
+static char disk_buff[BLOCKSIZE];//for I/O
+
+    struct BLOCK{
+        unsigned int id;
+        unsigned int availability;
+        unsigned int size;
+        unsigned int data[125];
+    };
+
+    static BLOCK* block=(BLOCK*)disk_buff;
 
 /*--------------------------------------------------------------------------*/
 /* FORWARD DECLARATIONS */ 
@@ -56,12 +66,12 @@ friend class File; /* -- not sure if we need this; feel free to delete */
 private:
      /* -- DEFINE YOUR FILE SYSTEM DATA STRUCTURES HERE. */
      
-      SimpleDisk * disk;
-     unsigned int size;
-    unsigned int freeblocks;
-    unsigned int numberof_file;
-    unsigned int data[BLOCKSIZE][3];
-     
+     SimpleDisk * disk;
+     unsigned int size; //size of disk
+     File*  files;
+     unsigned int num_files;//number of files
+     unsigned int block_num;//current block to look for free blocks
+
 public:
 
     FileSystem();
@@ -77,6 +87,8 @@ public:
     File * LookupFile(int _file_id);
     /* Find file with given id in file system. If found, return the initialized
      file object. Otherwise, return null. */
+
+    bool LookupFile(unsigned int _file_id, File * _file);
     
     bool CreateFile(int _file_id);
     /* Create file with given id in the file system. If file exists already,
@@ -84,8 +96,12 @@ public:
     
     bool DeleteFile(int _file_id);
     /* Delete file with given id in the file system; free any disk block occupied by the file. */
-    
-    void Refresh(unsigned int block_no, unsigned char* _buf, unsigned int nextblock);
+   void push_back_file(File* file);
+   BOOLEAN remove_file( unsigned int _file_id);
+   unsigned int AllocateBlock(unsigned int desired);
+   /*Allocates a block from free list, for use in file*/
+   void DeallocateBlock(unsigned int);
+   /*Deallocates a block from free list, for use in file*/
 
 };
 #endif

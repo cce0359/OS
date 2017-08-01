@@ -27,102 +27,115 @@
 /* CONSTRUCTOR */
 /*--------------------------------------------------------------------------*/
 
-File::File(unsigned int _file_id) {
+File::File() {
     /* We will need some arguments for the constructor, maybe pointer to disk
      block with file management and allocation data. */
-    currentpos = 0;
-    currentblock = 0;
-    file_id = _file_id;
-    
-    file_system->CreateFile(file_id);
-    size = 0;
-    start = 0;
+   file_id=0;
+   file_size=0;
+   cur_block=0;
+   cur_position=0;
+   block_nums=NULL;
     
 }
-
+File::File(unsigned int id) {
+  file_id=id;
+        if (FILE_SYSTEM->LookupFile(file_id, this))//this allows LookupFile to initialize file, returns false if not found
+            Console::puts("Found File\n");
+        else if (FILE_SYSTEM->CreateFile(file_id)){
+            cur_block=0;//initialize empty file, if write occurs we will allocate memory later
+            cur_position=0;
+            file_size=0;
+            block_nums=NULL;
+        }
+        else
+            Console::puts("ERR cannot create file\n");
+}
 /*--------------------------------------------------------------------------*/
 /* FILE FUNCTIONS */
 /*--------------------------------------------------------------------------*/
 
 int File::Read(unsigned int _n, char * _buf) {
-  if(_n==0 || _buf==NULL || size==0 || EoF()) return 0;
-    unsigned char tmp_buf[512];
-    unsigned int number_data_read = 0;
-    
-    
-    while(_n>0){
-        file_system->disk->read(currentblock,tmp_buf);
-        unsigned int data_to_read;
-        
-        
-        if(_n>(508-(currentpos%508))) {
-            data_to_read = 508-(currentpos&508);
-        }else{
-            data_to_read = _n;
+  if(_n==0 || _buf==NULL || file_size==0 || EoF()) return 0;
+  unsigned int count=_n;//initialize count
+        while (count>0){
+            if (EoF() && count>0)
+                return 0;//error 
+
+            FILE_SYSTEM->disk->read(block_nums[cur_block],disk_buff);//read block from file
+            for (cur_position;cur_position<BLOCKSIZE-HEADER_SIZE;++cur_position){//cur position ranges from 0-511 in increments of 8
+                if (count==1)break
+
+                memcpy(_buf,disk_buff+HEADER_SIZE+cur_position,1);//copy from file  buffer to user buffer
+                ++_buf;//increment buffer pointer
+                count-=1;
+
+            if (cur_position==(BLOCKSIZE-HEADER_SIZE)){
+                cur_position=0;
+                ++cur_block;
+            }
         }
-        if(data_to_read>size-currentpos) 
-            data_to_read = size-currentpos;
-        
-        memcpy(_buf+number_data_read,tmp_buf+currentpos%508,data_to_read);
-        
-        number_data_read += data_to_read;
-        _n -= data_to_read;
-        currentpos += data_to_read;
+        return (count-_n)*-1;//returns the total amount read
     }
-    return number_data_read;
 }
+
+    
+  
 
 
 void File::Write(unsigned int _n, const char * _buf) {
-     unsigned char buffer[512];
-    unsigned int data_written;
-    unsigned int data_to_write;
-    if (_n==0 || _buf==NULL) {
+    unsigned int count=_n;//initialize count
+        while (BLOCKSIZE-HEADER_SIZE<=count){
+            if (EoF())
+                GetBlock();
+            
+            memcpy((void*)(disk_buff+HEADER_SIZE),_buf,BLOCKSIZE-HEADER_SIZE);//copy from user buffer to file buffer
+            FILE_SYSTEM->disk->write(block_nums[cur_block],disk_buff);
+            count-=(BLOCKSIZE-HEADER_SIZE);
+        }
         return;
-    }
-    int flag=currentpos%508;
-    while (_n>0) {
-        if (flag==0) {
-            if (!EoF()) {
-                file_system->disk->read(currentblock,buffer);
-                memcpy(&currentpos, buffer+508, 4);
-            }
-        }
-        
-        unsigned int offset=currentpos%508;
-        file_system->disk->read(currentblock, buffer);
-        if (_n>508-offset) {
-            data_to_write=508-offset;
-        }else{
-            data_to_write=_n;
-        }
-        
-        memcpy(buffer+offset, _buf+data_to_write, data_to_write);
-        file_system->disk->write(currentblock, buffer);
-        _n -= data_to_write;
-    }
-    
-    
-    return;
 }
 
 void File::Reset() {
-    currentpos=0;
-    currentblock=start;
+     cur_position=0;
+     cur_block=0;
 }
 
 void File::Rewrite() {
-    currentblock=0;
-    currentpos=0;
-    
-    unsigned char _buf[512];
-    unsigned int block_no = start;
-    unsigned int nextblock = 0;
-    file_system->Refresh(block_no, _buf, nextblock);
-
+     cur_block=0;
+        while(cur_block<file_size){//release memory
+            FILE_SYSTEM->DeallocateBlock(block_nums[cur_block]);
+            ++cur_block;
+        }
+        cur_block=0;
+        cur_position=0;
+        block_nums=NULL;
+        file_size=0;
 }
 
 
 bool File::EoF() {
-    return size == currentpos;
+     if (block_nums==NULL){
+            //Console::puts("EOF REACHED\n");
+            return true;
+            }
+        if (cur_block==file_size-1 && cur_position==BLOCKSIZE-HEADER_SIZE-1 ){
+            //Console::puts("EOF REACHED\n");
+            return true;
+            }
+        else
+            return false;
 }
+bool File::GetBlock(){
+        unsigned int new_block_num=FILE_SYSTEM->AllocateBlock(0);
+        unsigned int* new_num_array= (unsigned int*)new unsigned int[file_size+1];
+        for (unsigned int i=0;i<file_size;++i)//copy old list
+            new_num_array[i]=block_nums[i];
+        if (block_nums!=NULL)
+            new_num_array[file_size]=new_block_num;//set new index to new block number
+        else
+            new_num_array[0]=new_block_num;
+        ++file_size;//increment file size
+        delete block_nums; //delete old array
+        block_nums=new_num_array;//set pointer to new array
+        return true;
+    }

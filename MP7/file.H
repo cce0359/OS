@@ -35,25 +35,27 @@
 /* class  F i l e   */
 /*--------------------------------------------------------------------------*/
 class FileSystem;
+extern FileSystem* FILE_SYSTEM;
 
 class File  {
 friend class FileSystem;
     
 private:
     /* -- your file data structures here ... */
-    static FileSystem   * file_system;
+    FileSystem   * file_system;
 
-    unsigned int file_id;
-    unsigned int position;
-    unsigned int size;
-    unsigned int start;
-    unsigned int currentpos;
-    unsigned int currentblock;
+     unsigned int   inode_block_num;//block of file inode
+     unsigned int   file_id;
+     unsigned int   file_size; // in blocks
+     unsigned int*  block_nums;//pointers of designated file blocks, not guaranteed to be continous
+     unsigned int   cur_block; //current block position, always starts from 0
+     unsigned int   cur_position; //current position in currrent block, always starts from 0
+
     /* -- maybe it would be good to have a reference to the file system? */
     
 public:
-
-    File(unsigned int _file_id);
+    File();
+    File(unsigned int id);
     /* Constructor for the file handle. Set the ’current
      position’ to be at the beginning of the file. */
     
@@ -76,6 +78,7 @@ public:
     
     bool EoF();
     /* Is the current location for the file at the end of the file? */
+    bool GetBlock();
 
 };
 
