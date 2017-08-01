@@ -57,8 +57,8 @@ Scheduler::Scheduler() {
 }
 
 void Scheduler::yield() {
-  if(disk !=NULL && disk->is_ready())
-	disk->resume_from_queue();
+  //if(disk !=NULL && disk->is_ready())
+//	disk->enqueue();
 
     if (size!=0){
             --size;

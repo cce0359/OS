@@ -17,9 +17,9 @@
 /*--------------------------------------------------------------------------*/
 /* DEFINES */
 /*--------------------------------------------------------------------------*/
-#define SYSTEM_DISK_SIZE 10485760
+#define SYSTEM_DISK_SIZE2 10485760
 #define BLOCKSIZE 512
-#define SYSTEM_BLOCKS SYSTEM_DISK_SIZE/BLOCKSIZE
+#define SYSTEM_BLOCKS SYSTEM_DISK_SIZE2/BLOCKSIZE
 
 #define HEADER_SIZE 12
 

@@ -32,11 +32,8 @@ extern Scheduler* SYSTEM_SCHEDULER;
 /* CONSTRUCTOR */
 /*--------------------------------------------------------------------------*/
 
-BlockingDisk::BlockingDisk(DISK_ID _disk_id, unsigned int _size, Scheduler *_scheduler) 
+BlockingDisk::BlockingDisk(DISK_ID _disk_id, unsigned int _size) 
   : SimpleDisk(_disk_id, _size) {
-    this->scheduler = _scheduler;
-    size = 0;
-    this->blocked_thread_queue_head = new Queue();
 }
 /*
 void BlockingDisk::wait_until_ready(){
@@ -55,26 +52,6 @@ void BlockingDisk::wait_until_ready(){
             SYSTEM_SCHEDULER->yield();//yield processor while we wait for io to be ready
             }
   }
-
-  void BlockingDisk::add_to_queue(Thread *_thread) {
-    blocked_thread_queue_head->enqueue(_thread);//add thread to queue
-    ++size;
-}
-void BlockingDisk::resume_from_queue() {
-  if(size == 0) {
-    Console::puts("Error: Blocked queue is NULL.\n");
-  } 
-  else {
-    Thread *th = this->blocked_thread_queue_head->dequeue();
-    this->scheduler->resume(th); 
-  }
-}
-bool BlockingDisk::is_ready() {
-  return SimpleDisk::is_ready();
-}
-
-
-
 
 /*--------------------------------------------------------------------------*/
 /* SIMPLE_DISK FUNCTIONS */

@@ -92,10 +92,10 @@ kernel.o: kernel.C machine.H console.H gdt.H idt.H irq.H exceptions.H interrupts
 kernel.bin: start.o utils.o kernel.o \
    assert.o console.o gdt.o idt.o irq.o exceptions.o \
    interrupts.o simple_timer.o simple_keyboard.o frame_pool.o mem_pool.o \
-   thread.o threads_low.o simple_disk.o file.o file_system.o blocking_disk.o\
+   thread.o threads_low.o simple_disk.o file.o file_system.o \
     machine.o machine_low.o 
 	ld -melf_i386 -T linker.ld -o kernel.bin start.o utils.o kernel.o \
    assert.o console.o gdt.o idt.o irq.o exceptions.o interrupts.o \
    simple_timer.o simple_keyboard.o frame_pool.o mem_pool.o \
-   thread.o threads_low.o simple_disk.o file.o file_system.o blocking_disk.o\
+   thread.o threads_low.o simple_disk.o file.o file_system.o \
     machine.o machine_low.o

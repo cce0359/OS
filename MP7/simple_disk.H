@@ -25,9 +25,9 @@
 /*--------------------------------------------------------------------------*/
 /* INCLUDES */
 /*--------------------------------------------------------------------------*/
-#include "scheduler.H"
-class Scheduler;
-extern Scheduler* SYSTEM_SCHEDULER;
+//#include "scheduler.H"
+//class Scheduler;
+//extern Scheduler* SYSTEM_SCHEDULER;
 /* -- (none) -- */
 
 /*--------------------------------------------------------------------------*/

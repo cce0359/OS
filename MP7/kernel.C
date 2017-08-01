@@ -32,7 +32,7 @@
 /*--------------------------------------------------------------------------*/
 /* INCLUDES */
 /*--------------------------------------------------------------------------*/
-#define _USER_SCHEDULER_
+//#define _USER_SCHEDULER_
 #include "machine.H"         /* LOW-LEVEL STUFF   */
 #include "console.H"
 #include "gdt.H"
@@ -56,6 +56,7 @@
 
 #include "file_system.H"     /* FILE SYSTEM */
 #include "file.H"
+#include "blocking_disk.H"     /* DISK DEVICE */
 
 /*--------------------------------------------------------------------------*/
 /* MEMORY MANAGEMENT */
@@ -107,7 +108,7 @@ Scheduler * SYSTEM_SCHEDULER = new Scheduler();
 /*--------------------------------------------------------------------------*/
 
 /* -- A POINTER TO THE SYSTEM DISK */
-BlockingDisk * SYSTEM_DISK;
+SimpleDisk * SYSTEM_DISK;
 
 #define SYSTEM_DISK_SIZE (10 MB)
 
@@ -349,7 +350,7 @@ int main() {
 
     /* -- DISK DEVICE -- */
 
-    SYSTEM_DISK = new BlockingDisk(MASTER, SYSTEM_DISK_SIZE);
+    SYSTEM_DISK = new SimpleDisk(MASTER, SYSTEM_DISK_SIZE);
     
     /* NOTE: The timer chip starts periodically firing as 
              soon as we enable interrupts.
