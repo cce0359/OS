@@ -42,7 +42,7 @@ friend class FileSystem;
     
 private:
     /* -- your file data structures here ... */
-    FileSystem   * file_system;
+    FileSystem* file_system;
 
      unsigned int   inode_block_num;//block of file inode
      unsigned int   file_id;

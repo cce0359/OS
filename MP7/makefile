@@ -57,7 +57,7 @@ simple_disk.o: simple_disk.C simple_disk.H
 
 # ==== FILE SYSTEM =====
 
-file.o: file.C file.H
+file.o: file.C file.H file_system.H simple_disk.H
 	$(CPP) $(CPP_OPTIONS) -c -o file.o file.C
 
 file_system.o: file_system.C file_system.H simple_disk.H
@@ -79,8 +79,8 @@ threads_low.o: threads_low.asm threads_low.H
 thread.o: thread.C thread.H threads_low.H
 	$(CPP) $(CPP_OPTIONS) -c -o thread.o thread.C
 
-#scheduler.o: scheduler.C scheduler.H thread.H
-#	$(CPP) $(CPP_OPTIONS) -c -o scheduler.o scheduler.C
+scheduler.o: scheduler.C scheduler.H thread.H
+	$(CPP) $(CPP_OPTIONS) -c -o scheduler.o scheduler.C
 
 # ==== KERNEL MAIN FILE =====
 

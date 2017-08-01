@@ -32,7 +32,7 @@
 /*--------------------------------------------------------------------------*/
 /* INCLUDES */
 /*--------------------------------------------------------------------------*/
-
+#define _USER_SCHEDULER_
 #include "machine.H"         /* LOW-LEVEL STUFF   */
 #include "console.H"
 #include "gdt.H"
@@ -98,7 +98,7 @@ void operator delete[] (void * p) {
 #ifdef _USES_SCHEDULER_
 
 /* -- A POINTER TO THE SYSTEM SCHEDULER */
-Scheduler * SYSTEM_SCHEDULER;
+Scheduler * SYSTEM_SCHEDULER = new Scheduler();
 
 #endif
 
@@ -257,12 +257,13 @@ void fun3() {
     Console::puts("FUN 3 INVOKED! <THIS THREAD EXERCISES THE FILE SYSTEM> \n");
 
     assert(FileSystem::Format(SYSTEM_DISK, (1 MB)));
-    
-    assert(FILE_SYSTEM->Mount(SYSTEM_DISK));
+    Console::puts("hi\n");
+    //SimpleDisk * tmp = SYSTEM_DISK;
+   assert(FILE_SYSTEM->Mount(SYSTEM_DISK));
            
     for(int j = 0;; j++) {
         
-        Console::puts("FUN 4 IN BURST["); Console::puti(j); Console::puts("]\n");
+        Console::puts("FUN 3 IN BURST["); Console::puti(j); Console::puts("]\n");
         
         exercise_file_system(FILE_SYSTEM);
         

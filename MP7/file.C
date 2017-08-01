@@ -61,9 +61,9 @@ int File::Read(unsigned int _n, char * _buf) {
             if (EoF() && count>0)
                 return 0;//error 
 
-            FILE_SYSTEM->disk->read(block_nums[cur_block],disk_buff);//read block from file
+            FILE_SYSTEM->disk->read(block_nums[cur_block],(unsigned char*)disk_buff);//read block from file
             for (cur_position;cur_position<BLOCKSIZE-HEADER_SIZE;++cur_position){//cur position ranges from 0-511 in increments of 8
-                if (count==1)break
+                if (count==1)break;
 
                 memcpy(_buf,disk_buff+HEADER_SIZE+cur_position,1);//copy from file  buffer to user buffer
                 ++_buf;//increment buffer pointer
@@ -89,7 +89,7 @@ void File::Write(unsigned int _n, const char * _buf) {
                 GetBlock();
             
             memcpy((void*)(disk_buff+HEADER_SIZE),_buf,BLOCKSIZE-HEADER_SIZE);//copy from user buffer to file buffer
-            FILE_SYSTEM->disk->write(block_nums[cur_block],disk_buff);
+            FILE_SYSTEM->disk->write(block_nums[cur_block],(unsigned char*)disk_buff);
             count-=(BLOCKSIZE-HEADER_SIZE);
         }
         return;

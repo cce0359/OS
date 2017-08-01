@@ -39,7 +39,7 @@ FileSystem::FileSystem() {
 /* FILE SYSTEM FUNCTIONS */
 /*--------------------------------------------------------------------------*/
  void FileSystem::push_back_file(File* newFile){
-        if (files=NULL)
+        if (files==NULL)
             files=newFile;
         else
         {
@@ -56,23 +56,28 @@ FileSystem::FileSystem() {
 bool FileSystem::Mount(SimpleDisk * _disk) {
     
      disk=_disk;
+	Console::puts("b1");
         disk->read(0,disk_buff);
+	Console::puts("b3");
+
         num_files=block->size;
+	Console::puti(num_files);
         for (unsigned int i=0;i<num_files;++i){
             disk->read(0,disk_buff);//refresh buffer back to root node of file system
             File* newFile= new File();//create a new file
             disk->read(block->data[i],disk_buff);//puts file inode in buffer
             newFile->file_size=block->size;
             newFile->file_id=block->id;
-            unsigned int k=0;
             push_back_file(newFile);
         }
+
+	
         return true;
 }
 
 bool FileSystem::Format(SimpleDisk * _disk, unsigned int _size) {
-   disk=_disk;
-    memset(disk_buff,0,BLOCKSIZE);//set entire disk to 0, automatically free memory
+   FILE_SYSTEM->setdisk(_disk);
+   memset(disk_buff,0,BLOCKSIZE);//set entire disk to 0, automatically free memory
     
     for (int i=0;i<SYSTEM_BLOCKS;++i)
         _disk->write(i,disk_buff);
@@ -80,12 +85,13 @@ bool FileSystem::Format(SimpleDisk * _disk, unsigned int _size) {
     block->size=0;//write to  size block this will cause first 4 bytes to be empty which is interpereted as 0 files on disk
     _disk->write(0,disk_buff);//initializes master block
    
+	return true;
 }
 
 File * FileSystem::LookupFile(int _file_id) {
-      for (i=0;i<num_files+1;++i){
+      for (int i=0;i<num_files+1;++i){
             if (files[i].file_id==_file_id){
-                return (File *)files[i];
+                return &files[i];
             }
         }
     return NULL;
@@ -149,9 +155,10 @@ bool FileSystem::CreateFile(int _file_id) {
 
 bool FileSystem::DeleteFile(int _file_id) {
     File* oldFile;
-        if (LookupFile(_file_id,oldFile)==FALSE){
-            Console::puts("DELETION FAILED file_id:");Console::puti(_file_id);Console::puts("\n");
-            return FALSE;
+        if (LookupFile(_file_id,oldFile)==false){
+            Console::puts("DELETION FAILED file_id:");
+	    Console::puti(_file_id);Console::puts("\n");
+            return false;
             }
         else
         return remove_file(_file_id);
