@@ -78,7 +78,7 @@ void File::Write(unsigned int _n, const char * _buf) {
     unsigned int data_written;
     unsigned int data_to_write;
     if (_n==0 || _buf==NULL) {
-        return 0;
+        return;
     }
     int flag=currentpos%508;
     while (_n>0) {
@@ -103,7 +103,7 @@ void File::Write(unsigned int _n, const char * _buf) {
     }
     
     
-    return data_written;
+    return;
 }
 
 void File::Reset() {

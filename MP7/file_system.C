@@ -62,8 +62,9 @@ bool FileSystem::Format(SimpleDisk * _disk, unsigned int _size) {
 File * FileSystem::LookupFile(int _file_id) {
       for (int i=0; i<512; ++i) {
         if (data[i][0]==_file_id) {
-           _file->size=data[i][1];
-            return data[i];
+            File * re = new File(_file_id);
+	    re->size = data[i][1];	
+            return re;
         }
     }
     return NULL;
@@ -71,6 +72,7 @@ File * FileSystem::LookupFile(int _file_id) {
 
 bool FileSystem::CreateFile(int _file_id) {
     unsigned int i=0;
+    
     for(;i<512; i++){
         if(data[i][0] == 0) break;
     }
@@ -82,7 +84,7 @@ bool FileSystem::CreateFile(int _file_id) {
         return true;
     }
     else
-        return false
+        return false;
 }
 
 bool FileSystem::DeleteFile(int _file_id) {

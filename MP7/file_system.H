@@ -61,7 +61,6 @@ private:
     unsigned int freeblocks;
     unsigned int numberof_file;
     unsigned int data[BLOCKSIZE][3];
-    unsigned int bloksize=BLOCKSIZE;
      
 public:
 

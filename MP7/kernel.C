@@ -116,8 +116,7 @@ SimpleDisk * SYSTEM_DISK;
 /*--------------------------------------------------------------------------*/
 
 /* -- A POINTER TO THE SYSTEM FILE SYSTEM */
-FileSystem * FILE_SYSTEM;
-FILE_SYSTEM = new FileSystem();
+FileSystem * FILE_SYSTEM = new FileSystem();
 
 /*--------------------------------------------------------------------------*/
 /* JUST AN AUXILIARY FUNCTION */
