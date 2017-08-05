@@ -117,7 +117,7 @@ SimpleDisk * SYSTEM_DISK;
 /*--------------------------------------------------------------------------*/
 
 /* -- A POINTER TO THE SYSTEM FILE SYSTEM */
-FileSystem * FILE_SYSTEM = new FileSystem();
+FileSystem * FILE_SYSTEM;
 
 /*--------------------------------------------------------------------------*/
 /* JUST AN AUXILIARY FUNCTION */
@@ -184,6 +184,7 @@ void exercise_file_system(FileSystem * _file_system) {
     /* -- Read from File 1 and check result -- */
     file1->Reset();
     char result1[30];
+    Console::puti(file1->Read(20,result1));
     assert(file1->Read(20, result1) == 20);
     for(int i = 0; i < 20; i++) {
         assert(result1[i] == STRING1[i]);
@@ -259,7 +260,6 @@ void fun3() {
 
     assert(FileSystem::Format(SYSTEM_DISK, (1 MB)));
     Console::puts("hi\n");
-    //SimpleDisk * tmp = SYSTEM_DISK;
    assert(FILE_SYSTEM->Mount(SYSTEM_DISK));
            
     for(int j = 0;; j++) {
@@ -358,7 +358,8 @@ int main() {
              would get a lot of uncaptured interrupts otherwise. */  
 
     /* -- ENABLE INTERRUPTS -- */
-
+    
+    FILE_SYSTEM = new FileSystem();
      Machine::enable_interrupts();
 
     /* -- MOST OF WHAT WE NEED IS SETUP. THE KERNEL CAN START. */

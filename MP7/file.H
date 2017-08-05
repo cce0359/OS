@@ -14,6 +14,16 @@
 /*--------------------------------------------------------------------------*/
 /* DEFINES */
 /*--------------------------------------------------------------------------*/
+#define SYSTEM_DISK_SIZE2 10485760
+#define BLOCKSIZE 512
+#define SYSTEM_BLOCKS SYSTEM_DISK_SIZE2/BLOCKSIZE
+
+#define HEADER_SIZE 12
+
+#define FREE    0x0000
+#define USED    0xFFFF
+#define BLOCK_DATA_SIZE 125
+
 
 /* -- (none) -- */
 
@@ -50,10 +60,11 @@ private:
      unsigned int*  block_nums;//pointers of designated file blocks, not guaranteed to be continous
      unsigned int   cur_block; //current block position, always starts from 0
      unsigned int   cur_position; //current position in currrent block, always starts from 0
-
+    
     /* -- maybe it would be good to have a reference to the file system? */
     
 public:
+	char res[30];
     File();
     File(unsigned int id);
     /* Constructor for the file handle. Set the ’current

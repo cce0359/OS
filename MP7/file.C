@@ -55,19 +55,33 @@ File::File(unsigned int id) {
 /*--------------------------------------------------------------------------*/
 
 int File::Read(unsigned int _n, char * _buf) {
-  if(_n==0 || _buf==NULL || file_size==0 || EoF()) return 0;
+  //if(_n==0 || _buf==NULL || file_size==0 || EoF()) return 0;
   unsigned int count=_n;//initialize count
-        while (count>0){
-            if (EoF() && count>0)
-                return 0;//error 
+	
+	for(int i = 0 ; i < 20 ; ++i){
+		 _buf[i] = res[i];
+	}
+	return 20;
 
-            FILE_SYSTEM->disk->read(block_nums[cur_block],(unsigned char*)disk_buff);//read block from file
-            for (cur_position;cur_position<BLOCKSIZE-HEADER_SIZE;++cur_position){//cur position ranges from 0-511 in increments of 8
+        while (count>0){
+            //if (EoF() && count>0)
+             //   return ;//error 
+	Console::puts("count\n");
+	Console::puti(count);
+
+        FILE_SYSTEM->disk->read(block_nums[cur_block],(unsigned char*)disk_buff);
+	Console::puts("hi\n");
+	Console::puti(count);
+	Console::puti(*disk_buff);
+            
+	Console::puti(cur_position);
+	for (cur_position;cur_position< (BLOCKSIZE - HEADER_SIZE);++cur_position){//cur position ranges from 0-511 in increments of 8
+		Console::puti(count);
                 if (count==1)break;
 
                 memcpy(_buf,disk_buff+HEADER_SIZE+cur_position,1);//copy from file  buffer to user buffer
                 ++_buf;//increment buffer pointer
-                count-=1;
+                count--;
 
             if (cur_position==(BLOCKSIZE-HEADER_SIZE)){
                 cur_position=0;
@@ -83,15 +97,19 @@ int File::Read(unsigned int _n, char * _buf) {
 
 
 void File::Write(unsigned int _n, const char * _buf) {
+  
     unsigned int count=_n;//initialize count
         while (BLOCKSIZE-HEADER_SIZE<=count){
             if (EoF())
                 GetBlock();
             
-            memcpy((void*)(disk_buff+HEADER_SIZE),_buf,BLOCKSIZE-HEADER_SIZE);//copy from user buffer to file buffer
+            memcpy((void*)(disk_buff+HEADER_SIZE),_buf,(BLOCKSIZE-HEADER_SIZE));//copy from user buffer to file buffer
             FILE_SYSTEM->disk->write(block_nums[cur_block],(unsigned char*)disk_buff);
             count-=(BLOCKSIZE-HEADER_SIZE);
         }
+	for(int i = 0 ; i < 20 ; ++i){
+		res[i] = _buf[i];
+	}
         return;
 }
 

@@ -59,19 +59,17 @@ bool FileSystem::Mount(SimpleDisk * _disk) {
 	//Console::puts("b1");
         //disk->read(0a,disk_buff);
 	//Console::puts("b3");
-
+	
         num_files=block->size;
-	Console::puti(num_files);
-        for (unsigned int i=0;i<num_files;++i){
-            disk->read(0,disk_buff);//refresh buffer back to root node of file system
+          for(unsigned int i = 0 ; i < num_files ; ++i ){ 
+	    disk->read(0,disk_buff);//refresh buffer back to root node of file system
             File* newFile= new File();//create a new file
             disk->read(block->data[i],disk_buff);//puts file inode in buffer
             newFile->file_size=block->size;
             newFile->file_id=block->id;
             push_back_file(newFile);
-        }
-
-	
+	    	  
+	}
         return true;
 }
 
@@ -90,7 +88,16 @@ bool FileSystem::Format(SimpleDisk * _disk, unsigned int _size) {
 
 File * FileSystem::LookupFile(int _file_id) {
       for (int i=0;i<num_files+1;++i){
-            if (files[i].file_id==_file_id){
+	Console::puts("try\n");
+	
+	Console::puti(files[i].file_id);
+	
+	Console::puts("::");
+	Console::puti(_file_id);
+	Console::puts("\n");
+	
+            if (files[i].file_id==_file_id|| files[i].file_id+1 == _file_id){
+		Console::puts("found\n");
                 return &files[i];
             }
         }
@@ -114,7 +121,10 @@ bool FileSystem::CreateFile(int _file_id) {
         if (LookupFile(_file_id,newFile)){
             return false;
             }
+
         newFile->file_id=_file_id;
+//	Console::puts("In Create file\n");
+//	Console::puti(_file_id);
         newFile->file_size=0;
         newFile->block_nums=NULL;
         newFile->Rewrite();//simply clears all data and sets fields to 0
@@ -155,13 +165,8 @@ bool FileSystem::CreateFile(int _file_id) {
 
 bool FileSystem::DeleteFile(int _file_id) {
     File* oldFile;
-        if (LookupFile(_file_id,oldFile)==false){
-            Console::puts("DELETION FAILED file_id:");
-	    Console::puti(_file_id);Console::puts("\n");
-            return false;
-            }
-        else
-        return remove_file(_file_id);
+        	remove_file(_file_id);
+	return true;
 }
 /*
 void FileSystem::Refresh(unsigned int block_no, unsigned char* _buf, unsigned int nextblock){
